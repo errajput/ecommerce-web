@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import ProductForm from "@/components/ProductForm";
+import ProductForm from "@/Components/ProductForm";
 
 export default function EditProductPage() {
   const { id } = useParams();
