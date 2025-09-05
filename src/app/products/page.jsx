@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useDebounce from "@/Hooks/useDebounce";
+import { getQuery } from "@/utils/functions";
 
 export default function ProductListPage() {
   const [products, setProducts] = useState([]);
@@ -25,13 +26,14 @@ export default function ProductListPage() {
     filterValue
   ) => {
     try {
-      const params = new URLSearchParams({
+      const query = {
         search: searchText || "",
         sortBy,
         sortOrder,
         pageNo,
         pageSize,
-      });
+      };
+      const params = getQuery(query);
 
       if (filterBy && filterValue) {
         params.append("filterBy", filterBy);
