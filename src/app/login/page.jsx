@@ -28,11 +28,13 @@ export default function LoginPage() {
 
       const data = await res.json();
 
-      if (res.ok) {
+      console.log("Login data", data);
+
+      if (res.ok && data?.data?.token) {
         setMessage("Login successful ");
 
         //NOTE: store user in localStorage
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
         //NOTE: redirect to profile page
