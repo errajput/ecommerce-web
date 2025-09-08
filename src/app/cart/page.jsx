@@ -82,6 +82,25 @@ export default function CartPage() {
       alert(err.message);
     }
   };
+  // Place order
+  const placeOrder = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/orders/place", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      alert("Order placed successfully!");
+      setCart({ items: [] });
+      window.location.href = "/orders"; // redirect to orders page
+    } catch (err) {
+      alert("Error placing order: " + err.message);
+    }
+  };
 
   if (loading) return <p className="text-center">Loading...</p>;
   if (!cart || cart.items.length === 0)
@@ -174,6 +193,12 @@ export default function CartPage() {
             return acc + price * quantity;
           }, 0)}
         </p>
+        <button
+          onClick={placeOrder}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer"
+        >
+          Place Order
+        </button>
       </div>
     </div>
   );
