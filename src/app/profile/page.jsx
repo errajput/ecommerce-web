@@ -13,7 +13,7 @@ export default function ProfilePage() {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        router.push("/login"); // redirect if not logged in
+        router.push("/login");
         return;
       }
 
@@ -43,29 +43,50 @@ export default function ProfilePage() {
     fetchUser();
   }, [router]);
 
-  if (loading) return <p className="p-4">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+        <p className="text-lg font-semibold text-gray-700">
+          Loading profile...
+        </p>
+      </div>
+    );
+  }
 
-  if (!user) return <p className="p-4">No user found</p>;
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+        <p className="text-lg font-semibold text-red-600">No user found ❌</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow rounded-lg mt-6">
-      <h1 className="text-2xl font-bold mb-4">Profile</h1>
-      <p>
-        <strong>Name:</strong> {user.name}
-      </p>
-      <p>
-        <strong>Email:</strong> {user.email}
-      </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 text-center">
+        <h1 className="text-3xl font-extrabold text-green-700 mb-6">
+          Profile 👤
+        </h1>
 
-      <button
-        className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"
-        onClick={() => {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }}
-      >
-        Logout
-      </button>
+        <div className="space-y-3 text-gray-700">
+          <p>
+            <span className="font-semibold">Name:</span> {user.name}
+          </p>
+          <p>
+            <span className="font-semibold">Email:</span> {user.email}
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            router.push("/login");
+          }}
+          className="mt-6 w-full bg-gray-400 text-white font-semibold p-3 rounded-lg hover:bg-gray-500 transition cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
