@@ -19,6 +19,13 @@ export default function CartPage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+      if (res.status === 403) {
+        localStorage.removeItem("token");
+        window.location.href = "/login?message=Please login to view your cart";
+        return;
+      }
+      if (!res.ok) throw new Error("Failed to fetch cart");
+
       const data = await res.json();
       setCart(data.cart);
     } catch (err) {
