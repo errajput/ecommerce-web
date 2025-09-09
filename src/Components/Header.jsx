@@ -10,15 +10,15 @@ export default function Header() {
         <Link href="/products" className="cursor-pointer">
           Products
         </Link>
-        <Link href="/products/add" className="cursor-pointer">
+        {/* <Link href="/products/add" className="cursor-pointer">
           Add Product
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           href="/products"
           className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded cursor-pointer"
         >
           Back
-        </Link>
+        </Link> */}
       </nav>
     </header>
   );
