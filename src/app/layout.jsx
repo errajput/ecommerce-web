@@ -1,4 +1,4 @@
-import Header from "@/Components/Header";
+// import Header from "@/Components/Header";
 import "./globals.css";
 export const metadata = {
   title: {
@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
+        {/* <Header /> */}
         {children}
       </body>
     </html>
