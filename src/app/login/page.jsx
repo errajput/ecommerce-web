@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -8,6 +8,13 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    const redirectMsg = localStorage.getItem("redirectMessage");
+    if (redirectMsg) {
+      setMessage(redirectMsg);
+      localStorage.removeItem("redirectMessage");
+    }
+  }, []);
 
   const [message, setMessage] = useState("");
   const router = useRouter();
@@ -30,17 +37,17 @@ export default function LoginPage() {
       console.log("Login data", data);
 
       if (res.ok && data?.data?.token) {
-        setMessage("Login successful ✅");
+        setMessage("Login successful ");
 
         localStorage.setItem("token", data.data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
         router.push("/profile");
       } else {
-        setMessage(data.message || "Invalid credentials ❌");
+        setMessage(data.message || "Invalid credentials ");
       }
     } catch (err) {
-      setMessage("Something went wrong 🚨");
+      setMessage("Something went wrong ");
     }
   };
 
