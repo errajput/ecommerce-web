@@ -69,6 +69,9 @@ export default function ProductListPage() {
 
     await fetch(`http://localhost:5000/products/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
 
     setProducts(products.filter((p) => p._id !== id));

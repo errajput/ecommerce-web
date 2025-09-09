@@ -7,11 +7,21 @@ export default function AddProductPage() {
   const router = useRouter();
 
   const handleAddProduct = async (formData) => {
-    await fetch("http://localhost:5000/products", {
+    console.log('localStorage.getItem("token")', localStorage.getItem("token"));
+
+    const res = await fetch("http://localhost:5000/products", {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: formData,
     });
-    router.push("/products");
+
+    if (res.ok) {
+      router.push("/products");
+    } else {
+      alert("Error in Adding Product");
+    }
   };
 
   return (

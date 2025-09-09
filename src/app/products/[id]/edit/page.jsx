@@ -12,13 +12,16 @@ export default function EditProductPage() {
   useEffect(() => {
     fetch(`http://localhost:5000/products/${id}`)
       .then((res) => res.json())
-      .then((data) => setProduct(data));
+      .then((data) => setProduct(data.data));
   }, [id]);
 
   const handleUpdate = async (formData) => {
     await fetch(`http://localhost:5000/products/${id}`, {
       method: "PATCH",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
 
     router.push("/products");
