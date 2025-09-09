@@ -141,7 +141,25 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
           className="w-full border p-2 rounded"
         />
       </div>
-
+      {initialData.images?.length > 0 && (
+        <div>
+          Previous Images
+          {initialData.images?.length > 0 ? (
+            initialData.images.map((image) => {
+              return (
+                <img
+                  src={`http://localhost:5000${image}`}
+                  // alt
+                  key={image}
+                  className="w-16 h-16 object-cover mx-auto rounded"
+                />
+              );
+            })
+          ) : (
+            <span>No Image</span>
+          )}
+        </div>
+      )}
       <div className="mb-4">
         <label className="block mb-1 font-medium">Upload Images</label>
         <input type="file" multiple onChange={handleFileChange} />
