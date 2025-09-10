@@ -189,7 +189,7 @@ export default function ProductListPage() {
           <p>No products found.</p>
         ) : (
           <>
-            <div className="h-96 overflow-y-scroll">
+            <div className="h-96 overflow-y-auto">
               {/* NOTE: Desktop / Tablet View (Table) */}
               <div className="hidden md:block overflow-x-auto">
                 <table className="w-full border border-gray-200 rounded-lg overflow-hidden">
