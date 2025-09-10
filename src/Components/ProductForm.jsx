@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
+import Header from "@/Components/Header";
 
 export default function ProductForm({ initialData = {}, onSubmit }) {
   const [name, setName] = useState(initialData.name || "");
@@ -49,148 +50,188 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md mx-auto p-6 bg-white shadow rounded-lg space-y-4"
-    >
-      <div>
-        <label className="block font-medium">Product Name</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        />
-      </div>
+    <div>
+      <Header />
+      <div className="min-h-screen p-12 flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+        <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8">
+          <h1 className="text-3xl font-extrabold text-center text-green-700 mb-8">
+            {initialData.name ? "Edit Product ✏️" : "Add New Product 🛒"}
+          </h1>
 
-      <div>
-        <label className="block font-medium">Price</label>
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        />
-      </div>
-
-      <div>
-        <label className="block font-medium">Description</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        />
-      </div>
-
-      <div>
-        <label className="block font-medium">Brand</label>
-        <select
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        >
-          <option value="">Select Brand</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Dell">Dell</option>
-          <option value="HP">HP</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block font-medium">Category</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        >
-          <option value="">Select Category</option>
-          <option value="Laptop">Laptop</option>
-          <option value="Mobile">Mobile</option>
-          <option value="Tablet">Tablet</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block font-medium">Status</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        >
-          <option value="">Select Status</option>
-          <option value="active">active</option>
-          <option value="inactive">inactive</option>
-          <option value="out_of_stock">out_of_stock</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block font-medium">Stock</label>
-        <input
-          type="number"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        />
-      </div>
-      {initialData.images?.length > 0 && (
-        <div>
-          Previous Images
-          {initialData.images?.length > 0 ? (
-            initialData.images.map((image) => {
-              return (
-                <img
-                  src={`http://localhost:5000${image}`}
-                  // alt
-                  key={image}
-                  className="w-16 h-16 object-cover mx-auto rounded"
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
                 />
-              );
-            })
-          ) : (
-            <span>No Image</span>
-          )}
-        </div>
-      )}
-      <div className="mb-4">
-        <label className="block mb-1 font-medium">Upload Images</label>
-        <input type="file" multiple onChange={handleFileChange} />
-        <div>
-          {previews.map((src, idx) => (
-            <div key={idx} className="relative group inline-block mr-2 mt-2">
-              <Image
-                src={src}
-                alt={`Preview ${idx}`}
-                width={300}
-                height={200}
-                className="w-24 h-24 object-cover rounded border"
-              />
-              <button
-                type="button"
-                onClick={() => handleRemove(idx)}
-                className="absolute top-0 right-0 text-black text-xs px-2 py-1 rounded opacity-80 hover:opacity-100"
-              >
-                <XMarkIcon className="h-6 w-6 bg-black text-gray-300 cursor-pointer" />
-              </button>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Price ($)
+                </label>
+                <input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                />
+              </div>
             </div>
-          ))}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Description
+              </label>
+              <textarea
+                rows="4"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                placeholder="Enter product description..."
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Brand
+                </label>
+                <select
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:outline-none"
+                >
+                  <option value="">Select Brand</option>
+                  <option>Apple</option>
+                  <option>Samsung</option>
+                  <option>Dell</option>
+                  <option>HP</option>
+                  <option>Google</option>
+                  <option>OnePlus</option>
+                  <option>Sony</option>
+                  <option>Lenovo</option>
+                  <option>Microsoft</option>
+                  <option>Huawei</option>
+                  <option>Xiaomi</option>
+                  <option>Amazon</option>
+                  <option>Vivo</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Category
+                </label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:outline-none"
+                >
+                  <option value="">Select Category</option>
+                  <option>Laptop</option>
+                  <option>Mobile</option>
+                  <option>Tablet</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Status
+                </label>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:outline-none"
+                >
+                  <option value="">Select Status</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="out_of_stock">Out of Stock</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Stock
+                </label>
+                <input
+                  type="number"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {initialData.images?.length > 0 && (
+              <div>
+                <p className="text-sm font-medium text-gray-700 mb-2">
+                  Previous Images
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {initialData.images.map((image) => (
+                    <img
+                      src={`http://localhost:5000${image}`}
+                      key={image}
+                      className="w-24 h-26 object-cover rounded-lg border shadow-sm"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Upload Images
+              </label>
+              <input type="file" multiple onChange={handleFileChange} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+                {previews.map((src, idx) => (
+                  <div key={idx} className="relative group">
+                    <Image
+                      src={src}
+                      alt={`Preview ${idx}`}
+                      width={300}
+                      height={200}
+                      className="w-full h-28 object-cover rounded-lg border shadow-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemove(idx)}
+                      className="absolute top-0 right-0 text-black text-xs px-2 py-1 rounded opacity-80 hover:opacity-100"
+                    >
+                      <XMarkIcon className="h-4 w-4 bg-black text-gray-300 cursor-pointer" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-green-600 text-white font-semibold p-3 rounded-lg hover:bg-green-700 transition"
+            >
+              Save Product
+            </button>
+          </form>
         </div>
       </div>
-
-      <button
-        type="submit"
-        className="bg-blue-400 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-500"
-      >
-        Save Product
-      </button>
-    </form>
+    </div>
   );
 }
