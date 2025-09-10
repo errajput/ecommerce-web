@@ -82,7 +82,9 @@ export default function HomePage() {
                   className="w-full h-60 object-contain rounded "
                 />
 
-                <h3 className="text-lg mt-2">{product.name}</h3>
+                <h3 className="text-lg mt-2 truncate" title={product.name}>
+                  {product.name}
+                </h3>
                 <p className="text-green-600 font-bold">₹{product.price}</p>
                 <button
                   onClick={() => handleAddToCart(product._id)}
