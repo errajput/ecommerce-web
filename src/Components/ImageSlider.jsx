@@ -31,7 +31,7 @@ export default function ImageSlider({ images = [] }) {
           src={images[currentIndex]}
           alt={`slide-${currentIndex}`}
           fill
-          className="object-cover rounded-lg shadow"
+          className="w-full h-60 object-contain"
           priority
         />
       </div>

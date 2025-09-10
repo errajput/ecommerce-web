@@ -26,7 +26,7 @@ export default function AddProductPage() {
 
   return (
     <>
-      <h2 className="text-2xl font-bold text-center my-4">Add Product</h2>
+      {/* <h2 className="text-2xl font-bold text-center my-4">Add Product</h2> */}
       <ProductForm onSubmit={handleAddProduct} />
     </>
   );

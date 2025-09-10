@@ -79,7 +79,7 @@ export default function HomePage() {
                 <img
                   src={`http://localhost:5000${product.images[0]}`}
                   alt={product.name}
-                  className="w-full h-85 object-cover rounded"
+                  className="w-full h-60 object-contain rounded "
                 />
 
                 <h3 className="text-lg mt-2">{product.name}</h3>
