@@ -99,16 +99,16 @@ export default function ProductListPage() {
         <div className="flex flex-wrap gap-2 mb-4 items-center">
           <input
             type="text"
-            className="border p-2 rounded"
+            className="border rounded px-3 h-10"
             placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <label>Sort:</label>
+          <label className="text-sm font-medium">Sort:</label>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border p-2 rounded"
+            className="border px-3 h-10 rounded"
           >
             <option value="">All sorting</option>
             <option value="price">Price</option>
@@ -119,13 +119,13 @@ export default function ProductListPage() {
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="border p-2 rounded"
+            className="border px-3 h-10 rounded"
           >
             <option value="">All </option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
-          <label>Filter:</label>
+          <label className="text-sm font-medium">Filter:</label>
           <select
             value={filterBy === "brand" ? filterValue : ""}
             onChange={(e) => {
@@ -133,7 +133,7 @@ export default function ProductListPage() {
               setFilterValue(e.target.value);
               setPageNo(1); // reset to first page when filter changes
             }}
-            className="border px-2 py-1 rounded"
+            className="border px-3 h-10 rounded"
           >
             <option value="">All Brands</option>
             <option value="Apple">Apple</option>
@@ -157,7 +157,7 @@ export default function ProductListPage() {
               setFilterValue(e.target.value);
               setPageNo(1);
             }}
-            className="border px-2 py-1 rounded"
+            className="border px-3 h-10 rounded"
           >
             <option value="">All Categories</option>
             <option value="Mobile">Mobile</option>
@@ -166,19 +166,8 @@ export default function ProductListPage() {
             <option value="Accessories">Accessories</option>
           </select>
 
-          {/* <input
-          type="text"
-          className="border p-2 rounded"
-          placeholder="Filter value..."
-          value={filterValue}
-          onChange={(e) => {
-            setFilterValue(e.target.value);
-            setPageNo(1);
-          }}
-        /> */}
-
           <button
-            className="bg-gray-200 px-3 py-1 rounded"
+            className="bg-gray-200 px-4 h-10 rounded hover:bg-gray-300 transition cursor-pointer"
             onClick={handleReset}
           >
             Reset
@@ -195,7 +184,7 @@ export default function ProductListPage() {
                 <table className="w-full border border-gray-200 rounded-lg overflow-hidden">
                   <thead>
                     <tr className="bg-green-600 text-white text-sm">
-                      <th className="p-3 text-left">Image</th>
+                      <th className="p-3 text-center">Image</th>
                       <th className="p-3 text-left">Name</th>
                       <th className="p-3 text-left">Price</th>
                       <th className="p-3 text-left">Description</th>
@@ -203,7 +192,7 @@ export default function ProductListPage() {
                       <th className="p-3">Category</th>
                       <th className="p-3">Status</th>
                       <th className="p-3">Stocks</th>
-                      <th className="p-3">Actions</th>
+                      <th className="p-3 text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -248,16 +237,16 @@ export default function ProductListPage() {
                           </span>
                         </td>
                         <td className="p-3">{p.stock}</td>
-                        <td className="p-3 flex gap-2 justify-center">
+                        <td className="p-3 flex justify-center items-center gap-2">
                           <Link
                             href={`/products/${p._id}/edit`}
-                            className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 text-xs transition"
+                            className="flex items-center gap-1 bg-yellow-500 text-white px-4 h-9 rounded-lg hover:bg-yellow-600 hover:scale-105 shadow-sm transition-all text-sm"
                           >
                             Edit
                           </Link>
                           <button
                             onClick={() => handleDelete(p._id)}
-                            className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-xs transition"
+                            className="flex items-center gap-1 bg-red-500 text-white px-4 h-9 rounded-lg hover:bg-red-600 hover:scale-105 shadow-sm transition-all text-sm"
                           >
                             Delete
                           </button>
