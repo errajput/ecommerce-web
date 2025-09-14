@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useDebounce from "@/Hooks/useDebounce";
 import { getQuery } from "@/utils/functions";
 import Header from "@/Components/Header";
+import { formatPrice, formatStock } from "@/utils/format";
 
 export default function ProductListPage() {
   const [products, setProducts] = useState([]);
@@ -218,7 +219,7 @@ export default function ProductListPage() {
                           <Link href={`/products/${p._id}`}>{p.name}</Link>
                         </td>
                         <td className="p-3 text-green-600 font-bold">
-                          ₹{p.price}
+                          {formatPrice(p.price)}
                         </td>
                         <td className="p-3 text-gray-600 truncate max-w-[250px]">
                           {p.description}
@@ -236,7 +237,7 @@ export default function ProductListPage() {
                             {p.status}
                           </span>
                         </td>
-                        <td className="p-3">{p.stock}</td>
+                        <td className="p-3">{formatStock(p.stock)}</td>
                         <td className="p-3 flex justify-center items-center gap-2">
                           <Link
                             href={`/products/${p._id}/edit`}
@@ -281,7 +282,7 @@ export default function ProductListPage() {
                           <Link href={`/products/${p._id}`}>{p.name}</Link>
                         </h3>
                         <p className="text-green-600 font-semibold">
-                          ₹{p.price}
+                          {formatPrice(p.price)}
                         </p>
                         <span
                           className={`inline-block mt-1 px-2 py-0.5 text-xs rounded ${
@@ -300,7 +301,7 @@ export default function ProductListPage() {
                     <div className="grid grid-cols-2 gap-2 text-sm mt-2 text-gray-700">
                       <span>Brand: {p.brand}</span>
                       <span>Category: {p.category}</span>
-                      <span>Stock: {p.stock}</span>
+                      <span>Stock: {formatStock(p.stock)}</span>
                     </div>
                     <div className="flex space-x-2 pt-3">
                       <Link
