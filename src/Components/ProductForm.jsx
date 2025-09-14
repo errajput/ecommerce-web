@@ -225,7 +225,7 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
 
             <button
               type="submit"
-              className="w-full bg-green-600 text-white font-semibold p-3 rounded-lg hover:bg-green-700 transition"
+              className="w-full bg-green-600 text-white font-semibold p-3 rounded-lg hover:bg-green-700 transition cursor-pointer"
             >
               Save Product
             </button>
