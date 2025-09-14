@@ -6,53 +6,31 @@ import ImageSlider from "@/Components/ImageSlider";
 import { useRouter } from "next/navigation";
 import Header from "@/Components/Header";
 import { formatPrice, formatStock } from "@/utils/format";
+import { addToCart, getProductById } from "@/services/product.api";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const [product, setProduct] = useState(undefined);
-  // const [role, setRole] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch product");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Product API response:", data);
+    (async () => {
+      try {
+        const data = await getProductById(id);
         setProduct(data.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
         setProduct(null);
-      });
-    // const user = JSON.parse(localStorage.getItem("user"));
-    // if (user?.role) setRole(user.role);
+      }
+    })();
   }, [id]);
 
   const handleAddToCart = async () => {
     try {
-      const res = await fetch("http://localhost:5000/cart/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // authentication:
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          product: product._id,
-          quantity: 1,
-        }),
-      });
-
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Failed to add to cart");
-
-      alert(" Product added to cart!");
-      console.log("Cart response:", result);
+      const token = localStorage.getItem("token");
+      await addToCart(product._id, token, 1);
+      alert("✅ Product added to cart!");
     } catch (err) {
-      console.error(" Cart error:", err);
       alert(err.message);
     }
   };
@@ -60,24 +38,6 @@ export default function ProductDetailPage() {
   const goToCart = () => {
     router.push("/cart");
   };
-
-  // const handleDelete = async () => {
-  //   if (!confirm("Are you sure you want to delete this product?")) return;
-  //   try {
-  //     const res = await fetch(`http://localhost:5000/products/${product._id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     });
-  //     const data = await res.json();
-  //     if (!res.ok) throw new Error(data.message || "Delete failed");
-  //     alert("🗑️ Product deleted successfully");
-  //     router.push("/");
-  //   } catch (err) {
-  //     alert(err.message);
-  //   }
-  // };
 
   if (product === undefined) return <p className="text-center">Loading...</p>;
   if (product === null)

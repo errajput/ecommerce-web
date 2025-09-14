@@ -1,26 +1,22 @@
 "use client";
 
 import ProductForm from "@/Components/ProductForm";
+import { createProduct } from "@/services/product.api.js";
 import { useRouter } from "next/navigation";
 
 export default function AddProductPage() {
   const router = useRouter();
 
   const handleAddProduct = async (formData) => {
-    console.log('localStorage.getItem("token")', localStorage.getItem("token"));
+    try {
+      const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/products", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: formData,
-    });
+      await createProduct(formData, token);
 
-    if (res.ok) {
       router.push("/products");
-    } else {
-      alert("Error in Adding Product");
+    } catch (error) {
+      console.error("AddProductPage error:", error);
+      alert(error.message || "Error in Adding Product");
     }
   };
 

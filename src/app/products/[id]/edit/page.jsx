@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import ProductForm from "@/Components/ProductForm";
+import { getProductById, updateProduct } from "@/services/product.api";
 
 export default function EditProductPage() {
   const { id } = useParams();
@@ -10,21 +11,24 @@ export default function EditProductPage() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => setProduct(data.data));
+    async function fetchProduct() {
+      try {
+        const data = await getProductById(id);
+        setProduct(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProduct();
   }, [id]);
 
   const handleUpdate = async (formData) => {
-    await fetch(`http://localhost:5000/products/${id}`, {
-      method: "PATCH",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    router.push("/products");
+    try {
+      await updateProduct(id, formData);
+      router.push("/products");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (!product) return <p className="text-center">Loading...</p>;

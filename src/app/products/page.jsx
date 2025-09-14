@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useDebounce from "@/Hooks/useDebounce";
-import { getQuery } from "@/utils/functions";
+// import { getQuery } from "@/utils/functions";
 import Header from "@/Components/Header";
 import { formatPrice, formatStock } from "@/utils/format";
+import { deleteProduct, fetchProducts } from "@/services/product.api.js";
 
 export default function ProductListPage() {
   const [products, setProducts] = useState([]);
@@ -19,65 +20,37 @@ export default function ProductListPage() {
   const pageSize = 10;
   const debouncedQuery = useDebounce(search, 500);
 
-  const getProducts = async (
-    searchText,
-    pageNo,
-    sortBy,
-    sortOrder,
-    filterBy,
-    filterValue
-  ) => {
-    try {
-      const query = {
-        search: searchText || "",
-        sortBy,
-        sortOrder,
-        pageNo,
-        pageSize,
-      };
-      const params = getQuery(query);
-
-      if (filterBy && filterValue) {
-        params.append("filterBy", filterBy);
-        params.append("filterValue", filterValue);
-      }
-
-      const res = await fetch(
-        `http://localhost:5000/products?${params.toString()}`
-      );
-      const data = await res.json();
-
-      setProducts(data.products);
-      setTotal(data.totalRecords);
-    } catch (error) {
-      console.log("Error Getting Products", error);
-    }
-  };
-
-  //NOTE: Fetch products from backend API
   useEffect(() => {
-    getProducts(
-      debouncedQuery,
-      pageNo,
-      sortBy,
-      sortOrder,
-      filterBy,
-      filterValue
-    );
+    async function loadProducts() {
+      try {
+        const data = await fetchProducts({
+          searchText: debouncedQuery,
+          pageNo,
+          pageSize,
+          sortBy,
+          sortOrder,
+          filterBy,
+          filterValue,
+        });
+        setProducts(data.products);
+        setTotal(data.totalRecords);
+      } catch (err) {
+        console.error("Error Getting Products", err);
+      }
+    }
+    loadProducts();
   }, [debouncedQuery, pageNo, sortBy, sortOrder, filterBy, filterValue]);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
 
-    await fetch(`http://localhost:5000/products/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    setProducts(products.filter((p) => p._id !== id));
-    setTotal((prev) => prev - 1);
+    try {
+      await deleteProduct(id, localStorage.getItem("token"));
+      setProducts(products.filter((p) => p._id !== id));
+      setTotal((prev) => prev - 1);
+    } catch (err) {
+      console.error("Delete failed", err);
+    }
   };
 
   const handleReset = () => {
@@ -247,7 +220,7 @@ export default function ProductListPage() {
                           </Link>
                           <button
                             onClick={() => handleDelete(p._id)}
-                            className="flex items-center gap-1 bg-red-500 text-white px-4 h-9 rounded-lg hover:bg-red-600 hover:scale-105 shadow-sm transition-all text-sm"
+                            className="flex items-center gap-1 bg-red-500 text-white px-4 h-9 rounded-lg hover:bg-red-600 hover:scale-105 shadow-sm transition-all text-sm cursor-pointer"
                           >
                             Delete
                           </button>
