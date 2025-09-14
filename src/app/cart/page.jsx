@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/Components/Header";
 import ImageSlider from "@/Components/ImageSlider";
 import { useEffect, useState } from "react";
 
@@ -112,71 +113,77 @@ export default function CartPage() {
   if (loading) return <p className="text-center">Loading...</p>;
   if (!cart || cart.items.length === 0)
     return (
-      <div className="max-w-4xl mx-auto p-6 mt-6 bg-white shadow rounded-lg">
-        <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
-        <p className="text-gray-500">Your cart is empty.</p>
+      <div className="min-h-screen bg-green-50 ">
+        <Header />
+        <div className="max-w-4xl mx-auto p-6 mt-6 bg-white shadow rounded-lg">
+          <h1 className="text-3xl font-bold mb-4 text-green-800">Your Cart</h1>
+          <p className="text-green-400">Your cart is empty.</p>
+        </div>
       </div>
     );
 
   return (
-    <div>
-      <h2 className="flex items-center justify-around py-4 text-3xl font-bold mb-6">
+    <div className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
+      <Header />
+      <h2 className="text-center text-3xl font-bold text-green-700 m-6">
         Your Cart
       </h2>
-      <div className="max-w-3xl mx-auto p-6 mt-6 bg-white shadow rounded-lg">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-6">
         <ul className="divide-y divide-gray-200">
           {cart.items.map((item) => (
             <li
               key={item._id}
-              className="flex items-center justify-around py-4"
+              className="flex items-center justify-between gap-6 p-4 bg-gray-50 rounded-lg shadow-sm"
             >
-              <div className="max-w-2 flex justify-center items-start">
-                <ImageSlider
-                  images={
-                    item.product.images?.length
-                      ? item.product.images.map(
-                          (i) => `http://localhost:5000${i}`
-                        )
-                      : []
-                  }
-                />
-              </div>
-              <div>
-                <p className="text-2xl font-bold mb-4">{item.product.name}</p>
+              {/* Product Image */}
+              <img
+                src={`http://localhost:5000${item.product.images[0]}`}
+                alt={item.product.name}
+                className="w-24 h-24 object-contain rounded-md border"
+              />
 
-                <p className="text-xl text-green-600 font-bold mb-4">
-                  <strong>Price:</strong> ₹{item.product.price}
+              {/* Product Info */}
+              <div className="flex-1">
+                <p className="text-lg font-semibold">{item.product.name}</p>
+                <p className="text-green-600 font-bold">
+                  ₹{item.product.price}
                 </p>
-                <p className="mb-2">
-                  <strong>Status:</strong> {item.product.status}
+                <p className="text-sm text-gray-500">
+                  Status: {item.product.status}
                 </p>
 
-                <div className="flex gap-2 mt-2">
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-3 mt-2">
                   <button
                     onClick={() => updateQuantity(item._id, item.quantity - 1)}
                     disabled={item.quantity <= 1}
-                    className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50 cursor-pointer"
+                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
                   >
                     -
                   </button>
-                  <span>{item.quantity}</span>
+                  <span className="px-3 py-1 border rounded bg-white ">
+                    {item.quantity}
+                  </span>
                   <button
                     onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                    className="px-2 py-1 bg-gray-200 rounded cursor-pointer"
+                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer"
                   >
                     +
                   </button>
                 </div>
               </div>
-              <div>
-                <p className="text-gray-600">
-                  {item.product.price} × {item.quantity} ={" "}
-                  {item.product.price * item.quantity}
-                </p>
 
+              {/* Price & Remove */}
+              <div className="text-right">
+                <p className="font-medium text-gray-700">
+                  {item.product.price} × {item.quantity} ={" "}
+                  <span className="font-bold">
+                    ₹{item.product.price * item.quantity}
+                  </span>
+                </p>
                 <button
                   onClick={() => removeItem(item._id)}
-                  className="ml-4 text-gray-400 hover:bg-gray-200 p-1 cursor-pointer"
+                  className="mt-2 text-red-500  cursor-pointer"
                 >
                   Remove
                 </button>
