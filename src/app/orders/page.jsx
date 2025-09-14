@@ -1,5 +1,6 @@
 "use client";
 import Header from "@/Components/Header";
+import { getOrders } from "@/services/product.api";
 import { formatDate, formatPrice } from "@/utils/format";
 import { useEffect, useState } from "react";
 
@@ -7,18 +8,16 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const data = await getOrders();
+        setOrders(data.orders || []);
+      } catch (error) {
+        console.error(error);
+      }
+    }
     fetchOrders();
   }, []);
-
-  async function fetchOrders() {
-    const res = await fetch("http://localhost:5000/orders", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    const data = await res.json();
-    setOrders(data.orders || []);
-  }
 
   return (
     <div className="min-h-screen bg-green-50">
