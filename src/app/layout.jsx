@@ -5,10 +5,7 @@ export const metadata = {
   title: "Ecommerce App",
   description: "Your ecommerce store",
   icons: {
-    icon: [
-      { url: "/ecommerce.png", type: "image/png" },
-      // { url: "/favicon.ico", type: "image/x-icon" },
-    ],
+    icon: "/file.svg",
   },
 };
 const roboto = Roboto({
