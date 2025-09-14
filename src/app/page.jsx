@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Header from "@/Components/Header";
+import Link from "next/link";
 
 export default function HomePage() {
   const [products, setProducts] = useState(undefined);
@@ -76,16 +77,21 @@ export default function HomePage() {
                 key={product._id}
                 className="border border-green-500 rounded-lg bg-white shadow-md hover:shadow-lg transition p-4 text-center"
               >
-                <img
-                  src={`http://localhost:5000${product.images[0]}`}
-                  alt={product.name}
-                  className="w-full h-60 object-contain rounded "
-                />
+                <Link href={`/products/${product._id}`}>
+                  <img
+                    src={`http://localhost:5000${product.images[0]}`}
+                    alt={product.name}
+                    className="w-full h-60 object-contain rounded cursor-pointer"
+                  />
 
-                <h3 className="text-lg mt-2 truncate" title={product.name}>
-                  {product.name}
-                </h3>
-                <p className="text-green-600 font-bold">₹{product.price}</p>
+                  <h3
+                    className="text-lg mt-2 truncate  cursor-pointer"
+                    title={product.name}
+                  >
+                    {product.name}
+                  </h3>
+                  <p className="text-green-600 font-bold">₹{product.price}</p>
+                </Link>
                 <button
                   onClick={() => handleAddToCart(product._id)}
                   className="mt-3 bg-green-200 text-green-500 px-4 py-2 rounded hover:bg-green-600 hover:text-white cursor-pointer"
