@@ -56,8 +56,11 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
-        <p className="text-lg font-semibold text-red-600">No user found ❌</p>
+      <div>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+          <p className="text-lg font-semibold text-red-600">No user found ❌</p>
+        </div>
       </div>
     );
   }
