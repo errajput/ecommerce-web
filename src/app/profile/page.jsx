@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/Components/Header";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -68,7 +69,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 to-green-200">
       <Header />
-      <div className="h-100 flex items-center justify-center">
+      <div className="h-100 flex items-center justify-center m-10">
         <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 text-center">
           <h1 className="text-3xl font-extrabold text-green-700 mb-6">
             Profile 👤
@@ -83,6 +84,20 @@ export default function ProfilePage() {
             </p>
           </div>
 
+          <div className="mt-6 space-y-3">
+            <Link
+              href="/cart"
+              className="block w-full bg-green-500 text-white font-semibold p-3 rounded-lg hover:bg-green-600 transition"
+            >
+              🛒 My Cart
+            </Link>
+            <Link
+              href="/orders"
+              className="block w-full bg-blue-500 text-white font-semibold p-3 rounded-lg hover:bg-blue-600 transition"
+            >
+              📦 My Orders
+            </Link>
+          </div>
           <button
             onClick={() => {
               localStorage.removeItem("token");
