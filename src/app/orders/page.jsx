@@ -61,19 +61,19 @@ export default function OrdersPage() {
                 <ul className="divide-y divide-gray-200">
                   {order.items.map((item) => (
                     <li
-                      key={item.product._id}
+                      key={item?._id}
                       className="flex items-center justify-between py-3"
                     >
                       {/* Product Info */}
                       <div className="flex items-center space-x-4">
                         <img
-                          src={`http://localhost:5000${item.product.images[0]}`}
-                          alt={item.product.name}
+                          src={`http://localhost:5000${item?.product?.images[0]}`}
+                          alt={item.product?.name}
                           className="w-14 h-14 object-cover rounded-md border"
                         />
                         <div>
                           <p className="font-medium text-gray-800">
-                            {item.product.name}
+                            {item.product?.name}
                           </p>
                           <p className="text-sm text-gray-500">
                             Qty: {item.quantity}
