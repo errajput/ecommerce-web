@@ -2,10 +2,10 @@
 import { Roboto, Poppins } from "next/font/google";
 import "./globals.css";
 export const metadata = {
-  title: "Ecommerce App",
-  description: "Your ecommerce store",
+  title: "TechVista",
+  description: "wide tech collection, sounds like a marketplace",
   icons: {
-    icon: "/file.svg",
+    icon: "https://img.icons8.com/doodle/80/shopping-bag.png",
   },
 };
 const roboto = Roboto({
