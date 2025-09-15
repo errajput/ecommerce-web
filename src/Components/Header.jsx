@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { MdPhoneIphone } from "react-icons/md";
+import { FaShoppingCart } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -21,8 +23,19 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gradient-to-br from-green-300 to-green-400 text-white p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Product App</h1>
+    <header className="bg-gradient-to-br from-green-300 to-green-400 text-white p-4 flex justify-between items-center shadow-lg">
+      <div className="flex items-center space-x-3">
+        <FaShoppingCart className="text-5xl text-white drop-shadow-lg animate-bounce" />{" "}
+        <h1
+          className="text-4xl font-extrabold tracking-wide 
+                     bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
+                     bg-clip-text text-transparent 
+                     animate-pulse hover:scale-110 hover:rotate-1 
+                     transition-transform duration-500 ease-in-out font-[Orbitron]"
+        >
+          TechVista
+        </h1>
+      </div>
       <nav className="hidden md:flex space-x-9">
         <Link
           href="/products"
