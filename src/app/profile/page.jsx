@@ -34,7 +34,9 @@ export default function ProfilePage() {
         }
 
         const data = await res.json();
-        setUser(data.data.user);
+
+        // console.log("Profile API response:", data);
+        setUser(data.data.user || data.user || data);
       } catch (err) {
         console.error("Error fetching user:", err);
       } finally {
