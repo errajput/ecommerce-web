@@ -88,7 +88,6 @@ export default function ProductListPage() {
             <option value="price">Price</option>
             <option value="name">Name</option>
             <option value="createdAt">CreatedAT</option>
-            <option value="updatedAt">UpdatedAT</option>
           </select>
           <select
             value={sortOrder}
