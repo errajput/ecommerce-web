@@ -134,7 +134,13 @@ export default function Header() {
           >
             Products
           </Link>
-
+          <Link
+            href="/cart"
+            className="nav-link"
+            onClick={() => setMenuOpen(false)}
+          >
+            Cart
+          </Link>
           {isLoggedIn && (
             <Link
               href="/products/add"
