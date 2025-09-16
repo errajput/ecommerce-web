@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
+import { formatPrice } from "@/utils/format";
 
 export default function HomePage() {
   const [products, setProducts] = useState(undefined);
@@ -89,7 +90,9 @@ export default function HomePage() {
                   >
                     {product.name}
                   </h3>
-                  <p className="text-green-600 font-bold">₹{product.price}</p>
+                  <p className="text-green-600 font-bold">
+                    {formatPrice(product.price)}
+                  </p>
                 </Link>
                 <button
                   onClick={() => handleAddToCart(product._id)}
