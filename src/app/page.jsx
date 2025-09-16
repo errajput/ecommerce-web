@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Header from "@/Components/Header";
+
 import Link from "next/link";
 
 export default function HomePage() {
@@ -51,7 +51,6 @@ export default function HomePage() {
 
   return (
     <div className="bg-gradient-to-br from-green-50 to-green-100">
-      <Header />
       <div className="p-6 text-center ">
         <h1 className="text-3xl font-bold mb-2 text-green-600">
           Welcome to Product App 🚀

@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "@/Components/Header";
 import ImageSlider from "@/Components/ImageSlider";
 import { useEffect, useState } from "react";
 
@@ -113,18 +112,14 @@ export default function CartPage() {
   if (loading) return <p className="text-center">Loading...</p>;
   if (!cart || cart.items.length === 0)
     return (
-      <div className="min-h-screen bg-green-50 ">
-        <Header />
-        <div className="max-w-4xl mx-auto p-6 mt-6 bg-white shadow rounded-lg">
-          <h1 className="text-3xl font-bold mb-4 text-green-800">Your Cart</h1>
-          <p className="text-green-400">Your cart is empty.</p>
-        </div>
+      <div className="max-w-4xl mx-auto p-6 mt-6 bg-white shadow rounded-lg">
+        <h1 className="text-3xl font-bold mb-4 text-green-800">Your Cart</h1>
+        <p className="text-green-400">Your cart is empty.</p>
       </div>
     );
 
   return (
     <div className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
-      <Header />
       <h2 className="text-center text-3xl font-bold text-green-700 m-6">
         Your Cart
       </h2>
