@@ -1,11 +1,12 @@
-// import Header from "@/Components/Header";
 import { Roboto, Poppins } from "next/font/google";
 import "./globals.css";
+import Header from "@/Components/Header";
 export const metadata = {
-  title: "TechVista",
-  description: "wide tech collection, sounds like a marketplace",
+  title: "AstroCart",
+  description:
+    "A futuristic online shopping cart for advanced gadgets and technology.",
   icons: {
-    icon: "https://img.icons8.com/doodle/80/shopping-bag.png",
+    icon: "/astro-cart-icon.png",
   },
 };
 const roboto = Roboto({
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${roboto.variable} ${poppins.variable}`}>
       <body>
-        {/* <Header /> */}
+        <Header />
         {children}
       </body>
     </html>
