@@ -133,51 +133,50 @@ export default function CartPage() {
               className="flex items-center justify-between gap-6 p-4 bg-gray-50 rounded-lg shadow-sm"
             >
               {/* Product Image */}
-              <Link
-                href={`/products/${item?.product?._id}`}
-                className="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-md transition"
-              >
-                <img
-                  src={`http://localhost:5000${item.product.images[0]}`}
-                  alt={item.product.name}
-                  className="w-24 h-24 object-contain rounded-md border"
-                />
 
-                {/* Product Info */}
-                <div className="flex-1">
+              <img
+                src={`http://localhost:5000${item.product.images[0]}`}
+                alt={item.product.name}
+                className="w-24 h-24 object-contain rounded-md border"
+              />
+
+              {/* Product Info */}
+              <div className="flex-1">
+                <Link
+                  href={`/products/${item?.product?._id}`}
+                  className="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-md transition"
+                >
                   <p className="text-lg font-semibold">{item.product.name}</p>
-                  <p className="text-green-600 font-bold">
-                    {formatPrice(item.product.price)}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Status: {item.product.status}
-                  </p>
+                </Link>
+                <p className="text-green-600 font-bold">
+                  {formatPrice(item.product.price)}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Status: {item.product.status}
+                </p>
 
-                  {/* Quantity Controls */}
-                  <div className="flex items-center gap-3 mt-2">
-                    <button
-                      onClick={() =>
-                        updateQuantity(item._id, item.quantity - 1)
-                      }
-                      disabled={item.quantity <= 1}
-                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
-                    >
-                      -
-                    </button>
-                    <span className="px-3 py-1 border rounded bg-white ">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() =>
-                        updateQuantity(item._id, item.quantity + 1)
-                      }
-                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer"
-                    >
-                      +
-                    </button>
-                  </div>
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-3 mt-2">
+                  <button
+                    onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    -
+                  </button>
+                  <span className="px-3 py-1 border rounded bg-white ">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                    disabled={item.quantity >= 5}
+                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    +
+                  </button>
                 </div>
-              </Link>
+              </div>
+
               {/* Price & Remove */}
               <div className="text-right">
                 <p className="font-medium text-gray-700">
