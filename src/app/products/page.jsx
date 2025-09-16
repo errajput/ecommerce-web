@@ -9,6 +9,8 @@ import { formatPrice, formatStock } from "@/utils/format";
 import { deleteProduct, fetchProducts } from "@/services/product.api.js";
 
 export default function ProductListPage() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [search, setSearch] = useState("");
@@ -165,7 +167,7 @@ export default function ProductListPage() {
                       <th className="p-3">Category</th>
                       <th className="p-3">Status</th>
                       <th className="p-3">Stocks</th>
-                      <th className="p-3 text-center">Actions</th>
+                      {isAdmin && <th className="p-3 text-center">Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -210,20 +212,22 @@ export default function ProductListPage() {
                           </span>
                         </td>
                         <td className="p-3">{formatStock(p.stock)}</td>
-                        <td className="p-3 flex justify-center items-center gap-2">
-                          <Link
-                            href={`/products/${p._id}/edit`}
-                            className="flex items-center gap-1 bg-yellow-500 text-white px-4 h-9 rounded-lg hover:bg-yellow-600 hover:scale-105 shadow-sm transition-all text-sm"
-                          >
-                            Edit
-                          </Link>
-                          <button
-                            onClick={() => handleDelete(p._id)}
-                            className="flex items-center gap-1 bg-red-500 text-white px-4 h-9 rounded-lg hover:bg-red-600 hover:scale-105 shadow-sm transition-all text-sm cursor-pointer"
-                          >
-                            Delete
-                          </button>
-                        </td>
+                        {isAdmin && (
+                          <td className="p-3 flex justify-center items-center gap-2">
+                            <Link
+                              href={`/products/${p._id}/edit`}
+                              className="flex items-center gap-1 bg-yellow-500 text-white px-4 h-9 rounded-lg hover:bg-yellow-600 hover:scale-105 shadow-sm transition-all text-sm"
+                            >
+                              Edit
+                            </Link>
+                            <button
+                              onClick={() => handleDelete(p._id)}
+                              className="flex items-center gap-1 bg-red-500 text-white px-4 h-9 rounded-lg hover:bg-red-600 hover:scale-105 shadow-sm transition-all text-sm cursor-pointer"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

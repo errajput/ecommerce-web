@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -46,7 +47,7 @@ export default function Header() {
           Products
         </Link>
 
-        {isLoggedIn && (
+        {isLoggedIn && isAdmin && (
           <Link
             href="/products/add"
             className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
