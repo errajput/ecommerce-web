@@ -29,15 +29,17 @@ export default function Header() {
           alt="AstroCart Logo"
           className="w-12 h-12 drop-shadow-lg animate-bounce"
         />{" "}
-        <h1
-          className="text-3xl font-extrabold tracking-wide 
+        <Link href="/">
+          <h1
+            className="text-3xl font-extrabold tracking-wide 
                      bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
                      bg-clip-text text-transparent 
                      animate-pulse hover:scale-110 hover:rotate-1 
                      transition-transform duration-500 ease-in-out font-[Orbitron]"
-        >
-          AstroCart
-        </h1>
+          >
+            AstroCart
+          </h1>
+        </Link>
       </div>
       <nav className="hidden md:flex space-x-9">
         <Link
