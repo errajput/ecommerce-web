@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Link from "next/link";
+import { getUserProfile } from "@/services/user.api";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -12,33 +13,13 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        router.push("/login");
-        return;
-      }
-
       try {
-        const res = await fetch("http://localhost:5000/user/profile", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          localStorage.removeItem("token");
-          router.push("/login");
-          return;
-        }
-
-        const data = await res.json();
-
-        // console.log("Profile API response:", data);
-        setUser(data.data.user || data.user || data);
+        const data = await getUserProfile();
+        setUser(data.data?.user || data.user || data);
       } catch (err) {
-        console.error("Error fetching user:", err);
+        console.error("Error fetching user:", err.message);
+        localStorage.removeItem("token");
+        router.push("/login");
       } finally {
         setLoading(false);
       }

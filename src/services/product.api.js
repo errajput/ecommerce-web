@@ -3,8 +3,6 @@ import { getQuery } from "@/utils/functions";
 const API_URL = "http://localhost:5000";
 
 const PRODUCT_URL = `${API_URL}/products`;
-const CART_URL = `${API_URL}/cart/items`;
-const ORDER_URL = `${API_URL}/orders`;
 
 //  Fetch products with search, filter, sort, pagination
 export async function fetchProducts({
@@ -94,26 +92,6 @@ export async function getProductById(id) {
     throw error;
   }
 }
-// Cart
-export async function addToCart(productId, token, quantity = 1) {
-  try {
-    const res = await fetch(CART_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ product: productId, quantity }),
-    });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to add to cart");
-    return data;
-  } catch (error) {
-    console.error("addToCart error:", error);
-    throw error;
-  }
-}
 
 //  Update product
 export async function updateProduct(id, formData) {
@@ -126,17 +104,5 @@ export async function updateProduct(id, formData) {
   });
 
   if (!res.ok) throw new Error("Failed to update product");
-  return res.json();
-}
-
-//  Get all orders
-export async function getOrders() {
-  const res = await fetch(ORDER_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-
-  if (!res.ok) throw new Error("Failed to fetch orders");
   return res.json();
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/Components/Header";
+import { registerUser } from "@/services/user.api";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -22,33 +22,17 @@ export default function RegisterPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
+      const data = await registerUser(formData);
       console.log("Register data", data);
-
-      if (res.ok) {
-        setMessage("Registration successful 🎉");
-        setTimeout(() => router.push("/login"), 1500);
-      } else {
-        setMessage(data.message || "Registration failed ❌");
-      }
+      setMessage("Registration successful 🎉");
+      setTimeout(() => router.push("/login"), 1500);
     } catch (err) {
-      setMessage("Something went wrong 🚨");
+      setMessage(err.message || "Registration failed ❌");
     }
   };
 
   return (
     <div>
-      <Header />
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
         <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
           <h1 className="text-3xl font-extrabold text-center text-green-700 mb-6">

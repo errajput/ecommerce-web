@@ -1,6 +1,11 @@
 "use client";
-
-import ImageSlider from "@/Components/ImageSlider";
+import {
+  clearCart,
+  fetchCart,
+  removeItem,
+  updateQuantity,
+} from "@/services/cart.api";
+import { placeOrder } from "@/services/order.api";
 import { formatPrice } from "@/utils/format";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,24 +16,12 @@ export default function CartPage() {
 
   //  Fetch cart on load
   useEffect(() => {
-    fetchCart();
+    loadCart();
   }, []);
 
-  const fetchCart = async () => {
+  const loadCart = async () => {
     try {
-      const res = await fetch("http://localhost:5000/cart", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (res.status === 403) {
-        localStorage.removeItem("token");
-        window.location.href = "/login?message=Please login to view your cart";
-        return;
-      }
-      if (!res.ok) throw new Error("Failed to fetch cart");
-
-      const data = await res.json();
+      const data = await fetchCart();
       setCart(data.cart);
     } catch (err) {
       console.error("Error fetching cart:", err);
@@ -38,74 +31,39 @@ export default function CartPage() {
     }
   };
 
-  //  Update quantity
-  const updateQuantity = async (itemId, quantity) => {
+  const handleUpdateQuantity = async (itemId, quantity) => {
     try {
-      const res = await fetch(`http://localhost:5000/cart/items/${itemId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ quantity }),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message);
-      //setCart(result.cart);
-      fetchCart();
+      await updateQuantity(itemId, quantity);
+      loadCart();
     } catch (err) {
-      alert("Error updating quantity:r", err.message);
+      alert("Error updating quantity: " + err.message);
     }
   };
-  //  Remove item
-  const removeItem = async (itemId) => {
+
+  const handleRemoveItem = async (itemId) => {
     try {
-      const res = await fetch(`http://localhost:5000/cart/items/${itemId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message);
-      // setCart(result.cart);
-      fetchCart();
+      await removeItem(itemId);
+      loadCart();
     } catch (err) {
       alert(err.message);
     }
   };
 
-  //  Clear cart
-  const clearCart = async () => {
+  const handleClearCart = async () => {
     try {
-      const res = await fetch("http://localhost:5000/cart/items", {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message);
+      await clearCart();
       setCart({ items: [] });
     } catch (err) {
       alert(err.message);
     }
   };
-  // Place order
-  const placeOrder = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/orders/place", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
 
+  const handlePlaceOrder = async () => {
+    try {
+      await placeOrder();
       alert("Order placed successfully!");
       setCart({ items: [] });
-      window.location.href = "/orders"; // redirect to orders page
+      window.location.href = "/orders";
     } catch (err) {
       alert("Error placing order: " + err.message);
     }
@@ -158,7 +116,9 @@ export default function CartPage() {
                 {/* Quantity Controls */}
                 <div className="flex items-center gap-3 mt-2">
                   <button
-                    onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                    onClick={() =>
+                      handleUpdateQuantity(item._id, item.quantity - 1)
+                    }
                     disabled={item.quantity <= 1}
                     className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:cursor-not-allowed cursor-pointer"
                   >
@@ -168,7 +128,9 @@ export default function CartPage() {
                     {item.quantity}
                   </span>
                   <button
-                    onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                    onClick={() =>
+                      handleUpdateQuantity(item._id, item.quantity + 1)
+                    }
                     disabled={item.quantity >= 5}
                     className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:cursor-not-allowed cursor-pointer"
                   >
@@ -186,7 +148,7 @@ export default function CartPage() {
                   </span>
                 </p>
                 <button
-                  onClick={() => removeItem(item._id)}
+                  onClick={() => handleRemoveItem(item._id)}
                   className="mt-2 text-red-500  cursor-pointer"
                 >
                   Remove
@@ -198,7 +160,7 @@ export default function CartPage() {
       </div>
       <div className="flex justify-around items-center mt-6">
         <button
-          onClick={clearCart}
+          onClick={handleClearCart}
           className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg cursor-pointer"
         >
           Clear Cart
@@ -214,7 +176,7 @@ export default function CartPage() {
           )}
         </p>
         <button
-          onClick={placeOrder}
+          onClick={handlePlaceOrder}
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer"
         >
           Place Order

@@ -1,6 +1,6 @@
 "use client";
 
-import { getOrders } from "@/services/product.api";
+import { getOrders } from "@/services/order.api";
 import { formatDate, formatPrice } from "@/utils/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

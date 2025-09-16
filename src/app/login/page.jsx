@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { loginUser } from "@/services/user.api";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [message, setMessage] = useState("");
+  const router = useRouter();
   useEffect(() => {
     const redirectMsg = localStorage.getItem("redirectMessage");
     if (redirectMsg) {
@@ -15,9 +18,6 @@ export default function LoginPage() {
       localStorage.removeItem("redirectMessage");
     }
   }, []);
-
-  const [message, setMessage] = useState("");
-  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,19 +27,9 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const data = await loginUser(formData);
 
-      const data = await res.json();
-      console.log("Login data", data);
-
-      if (res.ok && data?.data?.token) {
+      if (data?.data?.token) {
         setMessage("Login successful ");
 
         localStorage.setItem("token", data.data.token);
