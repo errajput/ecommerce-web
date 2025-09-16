@@ -30,9 +30,7 @@ export default function RootLayout({ children }) {
 
           <footer className="bg-gradient-to-br from-green-300 to-green-500 text-white text-center p-4">
             © 2025{" "}
-            <span className="font-bold text-white  drop-shadow">
-              Product App
-            </span>
+            <span className="font-bold text-white  drop-shadow">AstroCart</span>
             . All rights reserved.
           </footer>
         </div>
