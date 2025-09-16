@@ -1,7 +1,10 @@
 import { getQuery } from "@/utils/functions";
 
-const API_URL = "http://localhost:5000/products";
-const CART_URL = "http://localhost:5000/cart/items";
+const API_URL = "http://localhost:5000";
+
+const PRODUCT_URL = `${API_URL}/products`;
+const CART_URL = `${API_URL}/cart/items`;
+const ORDER_URL = `${API_URL}/orders`;
 
 //  Fetch products with search, filter, sort, pagination
 export async function fetchProducts({
@@ -29,7 +32,7 @@ export async function fetchProducts({
       params.append("filterValue", filterValue);
     }
 
-    const res = await fetch(`${API_URL}?${params.toString()}`);
+    const res = await fetch(`${PRODUCT_URL}?${params.toString()}`);
     if (!res.ok) throw new Error("Failed to fetch products");
 
     return await res.json();
@@ -42,7 +45,7 @@ export async function fetchProducts({
 //  Delete product
 export async function deleteProduct(id, token) {
   try {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await fetch(`${PRODUCT_URL}/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -60,7 +63,7 @@ export async function deleteProduct(id, token) {
 //  Create product
 export async function createProduct(formData, token) {
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(PRODUCT_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -83,7 +86,7 @@ export async function createProduct(formData, token) {
 // Get single product
 export async function getProductById(id) {
   try {
-    const res = await fetch(`${API_URL}/${id}`);
+    const res = await fetch(`${PRODUCT_URL}/${id}`);
     if (!res.ok) throw new Error("Failed to fetch product");
     return await res.json();
   } catch (error) {
@@ -114,7 +117,7 @@ export async function addToCart(productId, token, quantity = 1) {
 
 //  Update product
 export async function updateProduct(id, formData) {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await fetch(`${PRODUCT_URL}/${id}`, {
     method: "PATCH",
     body: formData,
     headers: {
@@ -126,11 +129,9 @@ export async function updateProduct(id, formData) {
   return res.json();
 }
 
-const API_BASE = "http://localhost:5000/orders";
-
 //  Get all orders
 export async function getOrders() {
-  const res = await fetch(API_BASE, {
+  const res = await fetch(ORDER_URL, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
