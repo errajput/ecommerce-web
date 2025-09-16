@@ -1,6 +1,8 @@
 "use client";
 
 import ImageSlider from "@/Components/ImageSlider";
+import { formatPrice } from "@/utils/format";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function CartPage() {
@@ -119,8 +121,8 @@ export default function CartPage() {
     );
 
   return (
-    <div className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
-      <h2 className="text-center text-3xl font-bold text-green-700 m-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 ">
+      <h2 className="text-center text-3xl font-bold text-green-700 p-6">
         Your Cart
       </h2>
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-6">
@@ -131,49 +133,57 @@ export default function CartPage() {
               className="flex items-center justify-between gap-6 p-4 bg-gray-50 rounded-lg shadow-sm"
             >
               {/* Product Image */}
-              <img
-                src={`http://localhost:5000${item.product.images[0]}`}
-                alt={item.product.name}
-                className="w-24 h-24 object-contain rounded-md border"
-              />
+              <Link
+                href={`/products/${item?.product?._id}`}
+                className="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-md transition"
+              >
+                <img
+                  src={`http://localhost:5000${item.product.images[0]}`}
+                  alt={item.product.name}
+                  className="w-24 h-24 object-contain rounded-md border"
+                />
 
-              {/* Product Info */}
-              <div className="flex-1">
-                <p className="text-lg font-semibold">{item.product.name}</p>
-                <p className="text-green-600 font-bold">
-                  ₹{item.product.price}
-                </p>
-                <p className="text-sm text-gray-500">
-                  Status: {item.product.status}
-                </p>
+                {/* Product Info */}
+                <div className="flex-1">
+                  <p className="text-lg font-semibold">{item.product.name}</p>
+                  <p className="text-green-600 font-bold">
+                    {formatPrice(item.product.price)}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Status: {item.product.status}
+                  </p>
 
-                {/* Quantity Controls */}
-                <div className="flex items-center gap-3 mt-2">
-                  <button
-                    onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                    disabled={item.quantity <= 1}
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
-                  >
-                    -
-                  </button>
-                  <span className="px-3 py-1 border rounded bg-white ">
-                    {item.quantity}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer"
-                  >
-                    +
-                  </button>
+                  {/* Quantity Controls */}
+                  <div className="flex items-center gap-3 mt-2">
+                    <button
+                      onClick={() =>
+                        updateQuantity(item._id, item.quantity - 1)
+                      }
+                      disabled={item.quantity <= 1}
+                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 cursor-pointer"
+                    >
+                      -
+                    </button>
+                    <span className="px-3 py-1 border rounded bg-white ">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() =>
+                        updateQuantity(item._id, item.quantity + 1)
+                      }
+                      className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-              </div>
-
+              </Link>
               {/* Price & Remove */}
               <div className="text-right">
                 <p className="font-medium text-gray-700">
-                  {item.product.price} × {item.quantity} ={" "}
+                  {formatPrice(item.product.price)} × {item.quantity} ={" "}
                   <span className="font-bold">
-                    ₹{item.product.price * item.quantity}
+                    {formatPrice(item.product.price * item.quantity)}
                   </span>
                 </p>
                 <button
@@ -195,12 +205,14 @@ export default function CartPage() {
           Clear Cart
         </button>
         <p className="text-xl font-bold">
-          Total: ₹
-          {cart.items.reduce((acc, item) => {
-            const price = Number(item.product?.price);
-            const quantity = Number(item.quantity);
-            return acc + price * quantity;
-          }, 0)}
+          Total:
+          {formatPrice(
+            cart.items.reduce((acc, item) => {
+              const price = Number(item.product?.price);
+              const quantity = Number(item.quantity);
+              return acc + price * quantity;
+            }, 0)
+          )}
         </p>
         <button
           onClick={placeOrder}
