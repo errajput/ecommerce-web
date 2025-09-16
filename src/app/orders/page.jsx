@@ -2,15 +2,23 @@
 
 import { getOrders } from "@/services/product.api";
 import { formatDate, formatPrice } from "@/utils/format";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login"); // redirect if not logged in
+      return;
+    }
     async function fetchOrders() {
       try {
-        const data = await getOrders();
+        const data = await getOrders(token);
         setOrders(data.orders || []);
       } catch (error) {
         console.error(error);
@@ -62,22 +70,26 @@ export default function OrdersPage() {
                     className="flex items-center justify-between py-3"
                   >
                     {/* Product Info */}
-                    <div className="flex items-center space-x-4">
-                      <img
-                        src={`http://localhost:5000${item?.product?.images[0]}`}
-                        alt={item.product?.name}
-                        className="w-14 h-14 object-cover rounded-md border"
-                      />
-                      <div>
-                        <p className="font-medium text-gray-800">
-                          {item.product?.name}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          Qty: {item.quantity}
-                        </p>
+                    <Link
+                      href={`/products/${item?.product?._id}`}
+                      className="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-md transition"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <img
+                          src={`http://localhost:5000${item?.product?.images[0]}`}
+                          alt={item.product?.name}
+                          className="w-14 h-14 object-cover rounded-md border"
+                        />
+                        <div>
+                          <p className="font-medium text-gray-800">
+                            {item.product?.name}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            Qty: {item.quantity}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-
+                    </Link>
                     {/* Price */}
                     <span className="font-medium text-gray-700">
                       {formatPrice(order.totalPrice)}
