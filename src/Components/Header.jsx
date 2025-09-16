@@ -22,7 +22,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gradient-to-br from-green-300 to-green-400 text-white p-2 flex justify-between items-center shadow-lg">
+    <header className="bg-gradient-to-br from-green-300 to-green-400 text-white p-2 flex justify-between items-center shadow-lg sticky top-0 z-50">
       <div className="flex items-center space-x-3">
         <img
           src="/astro-cart-icon.png"
