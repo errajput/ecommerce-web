@@ -92,7 +92,7 @@ export default function OrdersPage() {
                     </Link>
                     {/* Price */}
                     <span className="font-medium text-gray-700">
-                      {formatPrice(order.totalPrice)}
+                      {formatPrice(item.price)}
                     </span>
                   </li>
                 ))}
