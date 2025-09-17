@@ -66,7 +66,7 @@ export async function createProduct(formData, token) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: formData, // formData because you’re uploading images
+      body: formData,
     });
 
     if (!res.ok) {
@@ -84,7 +84,15 @@ export async function createProduct(formData, token) {
 // Get single product
 export async function getProductById(id) {
   try {
-    const res = await fetch(`${PRODUCT_URL}/${id}`);
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${PRODUCT_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        ...(token && {
+          Authorization: `Bearer ${token}`,
+        }),
+      },
+    });
     if (!res.ok) throw new Error("Failed to fetch product");
     return await res.json();
   } catch (error) {
