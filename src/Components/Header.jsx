@@ -3,16 +3,29 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getUserProfile } from "@/services/user.api";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
+
+    if (token) {
+      getUserProfile()
+        .then((profile) => {
+          setIsSeller(profile.isSeller);
+        })
+        .catch((err) => {
+          console.error("Error fetching profile in header:", err.message);
+          setIsLoggedIn(false);
+          setIsSeller(false);
+        });
+    }
   }, []);
 
   const handleLogout = () => {
@@ -51,7 +64,7 @@ export default function Header() {
           Products
         </Link>
 
-        {isLoggedIn && isAdmin && (
+        {isLoggedIn && isSeller && (
           <Link
             href="/products/add"
             className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold

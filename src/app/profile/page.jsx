@@ -14,8 +14,8 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await getUserProfile();
-        setUser(data.data?.user || data.user || data);
+        const profile = await getUserProfile();
+        setUser(profile);
       } catch (err) {
         console.error("Error fetching user:", err.message);
         localStorage.removeItem("token");
@@ -60,6 +60,14 @@ export default function ProfilePage() {
           <p>
             <span className="font-semibold">Email:</span> {user.email}
           </p>
+          {user.isSeller && (
+            <Link
+              href="/products/add"
+              className="block w-full bg-blue-500 text-white font-semibold p-3 rounded-lg hover:bg-blue-600 transition"
+            >
+              Add Product
+            </Link>
+          )}
         </div>
 
         <div className="mt-6 space-y-3">

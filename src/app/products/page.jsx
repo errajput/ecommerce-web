@@ -7,9 +7,10 @@ import useDebounce from "@/Hooks/useDebounce";
 
 import { formatPrice, formatStock } from "@/utils/format";
 import { deleteProduct, fetchProducts } from "@/services/product.api.js";
+import { getUserProfile } from "@/services/user.api";
 
 export default function ProductListPage() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
 
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
@@ -42,6 +43,22 @@ export default function ProductListPage() {
     }
     loadProducts();
   }, [debouncedQuery, pageNo, sortBy, sortOrder, filterBy, filterValue]);
+
+  useEffect(() => {
+    async function checkUser() {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const user = await getUserProfile(token);
+        setIsSeller(user?.isSeller || false);
+      } catch (err) {
+        console.error("Failed to fetch user profile:", err);
+      }
+    }
+
+    checkUser();
+  }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -165,7 +182,7 @@ export default function ProductListPage() {
                     <th className="p-3">Category</th>
                     <th className="p-3">Status</th>
                     <th className="p-3">Stocks</th>
-                    {isAdmin && <th className="p-3 text-center">Actions</th>}
+                    {isSeller && <th className="p-3 text-center">Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -210,7 +227,7 @@ export default function ProductListPage() {
                         </span>
                       </td>
                       <td className="p-3">{formatStock(p.stock)}</td>
-                      {isAdmin && (
+                      {isSeller && (
                         <td className="p-3 flex justify-center items-center gap-2">
                           <Link
                             href={`/products/${p._id}/edit`}
