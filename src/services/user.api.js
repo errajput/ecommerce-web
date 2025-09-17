@@ -9,7 +9,7 @@ export const registerUser = async (formData) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`, // optional for register, can be removed
+      // Authorization: `Bearer ${getToken()}`, // optional for register, can be removed
     },
     body: JSON.stringify(formData),
   });
@@ -25,7 +25,7 @@ export const loginUser = async (formData) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`,
+      // Authorization: `Bearer ${getToken()}`,
     },
     body: JSON.stringify(formData),
   });
@@ -51,5 +51,7 @@ export const getUserProfile = async () => {
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Failed to fetch profile");
 
-  return data;
+  const { id, name, email, isSeller } = data.data;
+
+  return { id, name, email, isSeller };
 };
