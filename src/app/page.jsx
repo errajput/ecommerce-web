@@ -3,15 +3,21 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { formatPrice } from "@/utils/format";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const [products, setProducts] = useState(undefined);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/products");
+        const res = await fetch("http://localhost:5000/products", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+        });
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data.products);
@@ -41,9 +47,12 @@ export default function HomePage() {
 
       const result = await res.json();
       if (!res.ok) throw new Error(result.message || "Failed to add to cart");
-      console.log("Cart API result:", result);
+      // console.log("Cart API result:", result);
+      setProducts((prev) =>
+        prev.map((p) => (p._id === productId ? { ...p, isInCart: true } : p))
+      );
       alert(" Product added to cart!");
-      console.log("Cart response:", result);
+      // console.log("Cart response:", result);
     } catch (err) {
       console.error(" Cart error:", err);
       alert(err.message);
@@ -94,12 +103,22 @@ export default function HomePage() {
                     {formatPrice(product.price)}
                   </p>
                 </Link>
-                <button
-                  onClick={() => handleAddToCart(product._id)}
-                  className="mt-3 bg-green-200 text-green-500 px-4 py-2 rounded hover:bg-green-600 hover:text-white cursor-pointer"
-                >
-                  Add to Cart
-                </button>
+
+                {product.isInCart ? (
+                  <button
+                    onClick={() => router.push("/cart")}
+                    className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
+                  >
+                    Go to Cart
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleAddToCart(product._id)}
+                    className="mt-3 bg-green-200 text-green-500 px-4 py-2 rounded hover:bg-green-600 hover:text-white cursor-pointer"
+                  >
+                    Add to Cart
+                  </button>
+                )}
               </div>
             ))}
           </div>

@@ -29,14 +29,11 @@ export default function ProductDetailPage() {
     try {
       const token = localStorage.getItem("token");
       await addToCart(product._id, token, 1);
+      setProduct((prev) => ({ ...prev, isInCart: true }));
       alert("✅ Product added to cart!");
     } catch (err) {
       alert(err.message);
     }
-  };
-
-  const goToCart = () => {
-    router.push("/cart");
   };
 
   if (product === undefined) return <p className="text-center">Loading...</p>;
@@ -82,18 +79,21 @@ export default function ProductDetailPage() {
             <strong>Stock:</strong> {formatStock(product.stock)}
           </p>
           <div className="flex gap-4 mt-6">
-            <button
-              onClick={handleAddToCart}
-              className="mt-4 bg-blue-400 hover:bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition cursor-pointer"
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={goToCart}
-              className=" mt-4 bg-green-400 hover:bg-green-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition cursor-pointer"
-            >
-              Cart
-            </button>
+            {product.isInCart ? (
+              <button
+                onClick={() => router.push("/cart")}
+                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-semibold shadow-md transition cursor-pointer"
+              >
+                Go to Cart
+              </button>
+            ) : (
+              <button
+                onClick={handleAddToCart}
+                className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition cursor-pointer"
+              >
+                Add to Cart
+              </button>
+            )}
           </div>
         </div>
       </div>
