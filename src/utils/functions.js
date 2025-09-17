@@ -1,3 +1,6 @@
+/**
+ * To get something TODO:
+ */
 export const getQuery = (query) => {
   const checkedQuery = {};
   for (const [key, value] of Object.entries(query)) {
