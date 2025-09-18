@@ -27,8 +27,7 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = async () => {
     try {
-      const token = localStorage.getItem("token");
-      await addToCart(product._id, token, 1);
+      await addToCart(product._id, 1);
       setProduct((prev) => ({ ...prev, isInCart: true }));
       alert("✅ Product added to cart!");
     } catch (err) {
