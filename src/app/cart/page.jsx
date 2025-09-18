@@ -8,11 +8,13 @@ import {
 import { placeOrder } from "@/services/order.api";
 import { formatPrice } from "@/utils/format";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function CartPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   //  Fetch cart on load
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function CartPage() {
   };
 
   const handleRemoveItem = async (itemId) => {
+    if (!confirm("Are you sure you want to remove this item?")) return;
     try {
       await removeItem(itemId);
       loadCart();
@@ -50,6 +53,7 @@ export default function CartPage() {
   };
 
   const handleClearCart = async () => {
+    if (!confirm("Are you sure you want to clear your cart?")) return;
     try {
       await clearCart();
       setCart({ items: [] });
@@ -63,7 +67,8 @@ export default function CartPage() {
       await placeOrder();
       alert("Order placed successfully!");
       setCart({ items: [] });
-      window.location.href = "/orders";
+      router.push("/orders");
+      // window.location.href = "/orders";
     } catch (err) {
       alert("Error placing order: " + err.message);
     }
@@ -142,9 +147,12 @@ export default function CartPage() {
               {/* Price & Remove */}
               <div className="text-right">
                 <p className="font-medium text-gray-700">
-                  {formatPrice(item.product.price)} × {item.quantity} ={" "}
+                  {formatPrice(item.product.price)} x {item.quantity} ={" "}
                   <span className="font-bold">
-                    {formatPrice(item.product.price * item.quantity)}
+                    {formatPrice(
+                      Number(item.product?.price || 0) *
+                        Number(item.quantity || 0)
+                    )}
                   </span>
                 </p>
                 <button
