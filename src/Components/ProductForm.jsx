@@ -1,8 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { XMarkIcon } from "@heroicons/react/16/solid";
+import { X } from "lucide-react";
 import Image from "next/image";
+import SelectField from "@/ui/SelectField";
+import NumberField from "@/ui/NumberField";
+import TextField from "@/ui/TextField";
+
+const PRODUCT_BRANDS = [
+  "Apple",
+  "Samsung",
+  "Dell",
+  "HP",
+  "Google",
+  "OnePlus",
+  "Sony",
+  "Lenovo",
+  "Microsoft",
+  "Huawei",
+  "Xiaomi",
+  "Amazon",
+  "Vivo",
+];
+const PRODUCT_CATEGORY = ["Laptop", "Mobile", "Table"];
+
+const PRODUCT_STATUS = ["Active", "Inactive", "Out of Stock"];
 
 export default function ProductForm({ initialData = {}, onSubmit }) {
   const [name, setName] = useState(initialData.name || "");
@@ -57,31 +79,16 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Product Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price ($)
-              </label>
-              <input
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-              />
-            </div>
+            <TextField
+              label={"Product Name"}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <NumberField
+              label={"Price"}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </div>
 
           <div>
@@ -99,81 +106,33 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Brand
-              </label>
-              <select
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:outline-none"
-              >
-                <option value="">Select Brand</option>
-                <option>Apple</option>
-                <option>Samsung</option>
-                <option>Dell</option>
-                <option>HP</option>
-                <option>Google</option>
-                <option>OnePlus</option>
-                <option>Sony</option>
-                <option>Lenovo</option>
-                <option>Microsoft</option>
-                <option>Huawei</option>
-                <option>Xiaomi</option>
-                <option>Amazon</option>
-                <option>Vivo</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Category
-              </label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:outline-none"
-              >
-                <option value="">Select Category</option>
-                <option>Laptop</option>
-                <option>Mobile</option>
-                <option>Tablet</option>
-              </select>
-            </div>
+            <SelectField
+              label={"Brand"}
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              options={PRODUCT_BRANDS}
+            />
+            <SelectField
+              label={"Category"}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              options={PRODUCT_CATEGORY}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Status
-              </label>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:outline-none"
-              >
-                <option value="">Select Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="out_of_stock">Out of Stock</option>
-              </select>
-            </div>
+            <SelectField
+              label={"Status"}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              options={PRODUCT_STATUS}
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Stock
-              </label>
-              <input
-                type="number"
-                value={stock}
-                onChange={(e) => setStock(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-              />
-            </div>
+            <NumberField
+              label={"Stock"}
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+            />
           </div>
 
           {initialData.images?.length > 0 && (
@@ -213,7 +172,7 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
                     onClick={() => handleRemove(idx)}
                     className="absolute top-0 right-0 text-black text-xs px-2 py-1 rounded opacity-80 hover:opacity-100"
                   >
-                    <XMarkIcon className="h-4 w-4 bg-black text-gray-300 cursor-pointer" />
+                    <X className="h-4 w-4 bg-black text-gray-300 cursor-pointer" />
                   </button>
                 </div>
               ))}
