@@ -12,7 +12,8 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    //useEffect itself can’t be async, Immediately Invoked Function Expression
+    (async () => {
       try {
         const profile = await getUserProfile();
         setUser(profile);
@@ -23,9 +24,7 @@ export default function ProfilePage() {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchUser();
+    })();
   }, [router]);
 
   if (loading) {
@@ -41,7 +40,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
-        <p className="text-lg font-semibold text-red-600">No user found ❌</p>
+        <p className="text-lg font-semibold text-red-600">No user found</p>
       </div>
     );
   }
