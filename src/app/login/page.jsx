@@ -32,7 +32,7 @@ export default function LoginPage() {
         localStorage.setItem("token", data.data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        router.push("/profile");
+        setTimeout(() => router.push("/profile"), 1500);
       } else {
         setMessage(data.message || "Invalid credentials ");
       }
