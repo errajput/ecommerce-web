@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useDebounce from "@/Hooks/useDebounce";
-// import { getQuery } from "@/utils/functions";
 
 import { formatPrice, formatStock } from "@/utils/format";
 import { deleteProduct, fetchProducts } from "@/services/product.api.js";
