@@ -13,6 +13,7 @@ export const getApi = async (path, isAuth = true) => {
 
   const res = await fetch(`${BASE_URL}${path}`, {
     headers: {
+      "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
     },
   });
@@ -31,11 +32,11 @@ export const getApi = async (path, isAuth = true) => {
 // POST
 export const postApi = async (path, body) => {
   const token = getToken();
-  if (!token) {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-    return;
-  }
+  // if (!token) {
+  //   localStorage.removeItem("token");
+  //   window.location.href = "/login";
+  //   return;
+  // }
   try {
     const res = await fetch(`${BASE_URL}${path}`, {
       method: "POST",
@@ -56,7 +57,7 @@ export const postApi = async (path, body) => {
     if (!res.ok) throw new Error(data.message);
     return data;
   } catch (error) {
-    console.error("addToCart error:", error);
+    console.error("postApi   error:", error);
     throw error;
   }
 };

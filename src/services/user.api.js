@@ -1,57 +1,19 @@
-// src/api/userApi.js
+import { getApi, postApi } from "./http.service";
 
-const BASE_URL = "http://localhost:5000";
-
-const getToken = () => localStorage.getItem("token");
-
-export const registerUser = async (formData) => {
-  const res = await fetch(`${BASE_URL}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization: `Bearer ${getToken()}`, // optional for register, can be removed
-    },
-    body: JSON.stringify(formData),
-  });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Registration failed");
-
-  return data;
+export const registerUser = (formData) => {
+  return postApi("/auth/register", formData);
 };
 
-export const loginUser = async (formData) => {
-  const res = await fetch(`${BASE_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization: `Bearer ${getToken()}`,
-    },
-    body: JSON.stringify(formData),
-  });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Login failed");
-
-  return data;
+export const loginUser = (formData) => {
+  return postApi("/auth/login", formData);
 };
 
 //  profile fetch
 export const getUserProfile = async () => {
-  const token = getToken();
-  if (!token) throw new Error("No token found");
+  const res = await getApi("/user/profile", true);
 
-  const res = await fetch(`${BASE_URL}/user/profile`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (!res?.data) throw new Error("Profile data missing");
 
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Failed to fetch profile");
-
-  const { id, name, email, isSeller } = data.data;
-
+  const { id, name, email, isSeller } = res.data;
   return { id, name, email, isSeller };
 };
