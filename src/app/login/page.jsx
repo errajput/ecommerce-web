@@ -1,33 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 import { loginUser } from "@/services/user.api";
+import EmailField from "@/ui/EmailField";
+import PasswordField from "@/ui/PasswordField";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({
+  const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
   });
   const [message, setMessage] = useState("");
   const router = useRouter();
-  useEffect(() => {
-    const redirectMsg = localStorage.getItem("redirectMessage");
-    if (redirectMsg) {
-      setMessage(redirectMsg);
-      localStorage.removeItem("redirectMessage");
-    }
-  }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const data = await loginUser(formData);
+      const data = await loginUser(loginFormData);
 
       if (data?.data?.token) {
         setMessage("Login successful ");
@@ -52,35 +49,11 @@ export default function LoginPage() {
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
+          <EmailField value={loginFormData.email} onChange={handleChange} />
+          <PasswordField
+            value={loginFormData.password}
+            onChange={handleChange}
+          />
 
           <button
             type="submit"
@@ -101,13 +74,13 @@ export default function LoginPage() {
         )}
 
         <p className="mt-6 text-center text-gray-600 text-sm">
-          Don’t have an account?{" "}
-          <a
+          Don't have an account?{" "}
+          <Link
             href="/register"
             className="text-green-600 font-semibold hover:underline"
           >
             Register
-          </a>
+          </Link>
         </p>
       </div>
     </div>
