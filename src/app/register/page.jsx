@@ -2,32 +2,40 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 import { registerUser } from "@/services/user.api";
+import EmailField from "@/ui/EmailField";
+import TextField from "@/ui/TextField";
+import PasswordField from "@/ui/PasswordField";
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState({
+  const [registerFormData, setRegisterFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-
   const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setRegisterFormData({
+      ...registerFormData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const data = await registerUser(formData);
+      const data = await registerUser(registerFormData);
       console.log("Register data", data);
-      setMessage("Registration successful 🎉");
+
+      setMessage("Registration successful");
       setTimeout(() => router.push("/login"), 1500);
     } catch (err) {
-      setMessage(err.message || "Registration failed ❌");
+      setMessage("Registration failed");
     }
   };
 
@@ -40,50 +48,19 @@ export default function RegisterPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-                required
-              />
-            </div>
+            <TextField
+              label={"Full Name"}
+              value={registerFormData.name}
+              onChange={handleChange}
+            />
+            <EmailField
+              value={registerFormData.email}
+              onChange={handleChange}
+            />
+            <PasswordField
+              value={registerFormData.password}
+              onChange={handleChange}
+            />
 
             <button
               type="submit"
@@ -107,12 +84,12 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-center text-gray-600 text-sm">
             Already have an account?{" "}
-            <a
+            <Link
               href="/login"
               className="text-green-600 font-semibold hover:underline"
             >
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>
