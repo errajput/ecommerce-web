@@ -1,3 +1,7 @@
+/**
+ *
+ * @param {{label: string, value: string, onChange: () => void, options: {value: string, label: string}[]}}
+ */
 const SelectField = ({ label, value, onChange, options }) => {
   return (
     <div>
@@ -12,7 +16,9 @@ const SelectField = ({ label, value, onChange, options }) => {
       >
         <option value="">Select {label}</option>
         {options.map((option) => (
-          <option key={option}>{option}</option>
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </select>
     </div>
