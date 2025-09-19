@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { loginUser } from "@/services/user.api";
+import { loginUser } from "@/services/user.service";
 import EmailField from "@/ui/EmailField";
 import PasswordField from "@/ui/PasswordField";
 
@@ -30,7 +30,6 @@ export default function LoginPage() {
         setMessage("Login successful ");
 
         localStorage.setItem("token", data.data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
 
         setTimeout(() => router.push("/profile"), 1500);
       } else {
@@ -42,7 +41,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+    <div className="flex items-center justify-center pt-10">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
         <h1 className="text-3xl font-extrabold text-center text-green-700 mb-6">
           Welcome Back 👋
