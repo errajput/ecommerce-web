@@ -1,6 +1,9 @@
-const BASE_URL = "http://localhost:5000";
+export const BASE_URL = "http://localhost:5000";
 
-const getToken = () => localStorage.getItem("token");
+export const getToken = () => localStorage.getItem("token");
+export const removeToken = () => localStorage.removeItem("token");
+export const isUserLogin = () => !!getToken();
+export const logoutUser = () => removeToken();
 
 // GET
 export const getApi = async (path, isAuth = true) => {
@@ -63,7 +66,7 @@ export const postApi = async (path, body) => {
 };
 
 // PATCH
-export const patchApi = async (path, body) => {
+export const patchApi = async (path, body, isFormData = false) => {
   const token = getToken();
   if (!token) {
     localStorage.removeItem("token");
@@ -74,10 +77,11 @@ export const patchApi = async (path, body) => {
     const res = await fetch(`${BASE_URL}${path}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
+        ...(!isFormData && { "Content-Type": "application/json" }),
         ...(token && { Authorization: `Bearer ${token}` }),
       },
-      ...(body && { body: JSON.stringify(body) }),
+      ...(body && !isFormData && { body: JSON.stringify(body) }),
+      ...(body && isFormData && { body }),
     });
 
     if (res.status === 403 || res.status === 401) {
