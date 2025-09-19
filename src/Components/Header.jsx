@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserProfile } from "@/services/user.api";
+import { getUserProfile } from "@/services/user.service";
+import { isUserLogin } from "@/services/http.service";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,10 +13,10 @@ export default function Header() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    const isLogin = isUserLogin();
+    setIsLoggedIn(isLogin);
 
-    if (token) {
+    if (isLogin) {
       getUserProfile()
         .then((profile) => {
           setIsSeller(profile.isSeller);
