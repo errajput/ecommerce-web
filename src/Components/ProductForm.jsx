@@ -21,10 +21,17 @@ const PRODUCT_BRANDS = [
   "Xiaomi",
   "Amazon",
   "Vivo",
-];
-const PRODUCT_CATEGORY = ["Laptop", "Mobile", "Table"];
+].map((v) => ({ value: v, label: v }));
+const PRODUCT_CATEGORY = ["Laptop", "Mobile", "Table"].map((v) => ({
+  value: v,
+  label: v,
+}));
 
-const PRODUCT_STATUS = ["Active", "Inactive", "Out of Stock"];
+const PRODUCT_STATUS = [
+  { value: "active", label: "Active" },
+  { value: "inactive", label: "Inactive" },
+  { value: "out_of_stock", label: "Out of Stock" },
+];
 
 export default function ProductForm({ initialData = {}, onSubmit }) {
   const [name, setName] = useState(initialData.name || "");
