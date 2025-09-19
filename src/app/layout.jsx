@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
       <body>
         <div className="min-h-screen flex flex-col">
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow bg-gradient-to-br from-green-100 to-green-200">
+            {children}
+          </main>
 
           <footer className="bg-gradient-to-br from-green-300 to-green-500 text-white text-center p-4">
             © 2025{" "}
