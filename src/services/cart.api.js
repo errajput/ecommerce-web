@@ -9,7 +9,7 @@ export const addToCart = (productId, quantity = 1) => {
 };
 
 export const updateQuantity = (itemId, quantity) => {
-  return patchApi(`/cart/items/${itemId}`, quantity);
+  return patchApi(`/cart/items/${itemId}`, { quantity });
 };
 
 export const removeItem = (itemId) => {

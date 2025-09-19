@@ -5,6 +5,8 @@ import Link from "next/link";
 import { formatPrice } from "@/utils/format";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/services/http.service";
+import { fetchProducts } from "@/services/product.api";
+import { addToCart } from "@/services/cart.api";
 
 export default function HomePage() {
   const [products, setProducts] = useState(undefined);
@@ -12,15 +14,9 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/products", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-        });
-        if (!res.ok) throw new Error("Failed to fetch products");
-        const data = await res.json();
+        const data = await fetchProducts({});
         setProducts(data.products);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -29,33 +25,21 @@ export default function HomePage() {
       }
     };
 
-    fetchProducts();
+    loadProducts();
   }, []);
 
   const handleAddToCart = async (productId) => {
     try {
-      const res = await fetch("http://localhost:5000/cart/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          product: productId,
-          quantity: 1,
-        }),
-      });
+      const result = await addToCart(productId, 1);
 
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Failed to add to cart");
-      // console.log("Cart API result:", result);
+      if (!result.ok)
+        throw new Error(result.message || "Failed to add to cart");
+
       setProducts((prev) =>
         prev.map((p) => (p._id === productId ? { ...p, isInCart: true } : p))
       );
       alert(" Product added to cart!");
-      // console.log("Cart response:", result);
     } catch (err) {
-      console.error(" Cart error:", err);
       alert(err.message);
     }
   };

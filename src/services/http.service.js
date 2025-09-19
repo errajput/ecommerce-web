@@ -95,7 +95,7 @@ export const patchApi = async (path, body, isFormData = false) => {
     });
 
     if (res.status === 403 || res.status === 401) {
-      handleUnauthorized;
+      handleUnauthorized();
       return;
     }
 
