@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
 import Image from "next/image";
 import SelectField from "@/ui/SelectField";
 import NumberField from "@/ui/NumberField";
 import TextField from "@/ui/TextField";
+import { BASE_URL } from "@/services/http.service";
 
 const PRODUCT_BRANDS = [
   "Apple",
@@ -150,7 +150,7 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {initialData.images.map((image) => (
                   <img
-                    src={`http://localhost:5000${image}`}
+                    src={`${BASE_URL}${image}`}
                     key={image}
                     className="w-24 h-26 object-cover rounded-lg border shadow-sm"
                   />
@@ -179,7 +179,20 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
                     onClick={() => handleRemove(idx)}
                     className="absolute top-0 right-0 text-black text-xs px-2 py-1 rounded opacity-80 hover:opacity-100"
                   >
-                    <X className="h-4 w-4 bg-black text-gray-300 cursor-pointer" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
                   </button>
                 </div>
               ))}
