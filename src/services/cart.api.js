@@ -9,13 +9,13 @@ export const addToCart = (productId, quantity = 1) => {
 };
 
 export const updateQuantity = (itemId, quantity) => {
-  return patchApi(`/cart/items/${itemId}`, { itemId, quantity });
+  return patchApi(`/cart/items/${itemId}`, quantity);
 };
 
-export const removeItem = async (itemId) => {
-  return deleteApi(`/cart/items/${itemId}`, itemId);
+export const removeItem = (itemId) => {
+  return deleteApi(`/cart/items/${itemId}`);
 };
 
-export const clearCart = async () => {
+export const clearCart = () => {
   return deleteApi("/cart/items");
 };
