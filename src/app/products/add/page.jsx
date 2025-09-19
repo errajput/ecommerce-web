@@ -1,8 +1,9 @@
 "use client";
 
 import ProductForm from "@/Components/ProductForm";
+import { getToken } from "@/services/http.service";
 import { createProduct } from "@/services/product.api.js";
-import { getUserProfile } from "@/services/user.api";
+import { getUserProfile } from "@/services/user.service";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,7 @@ export default function AddProductPage() {
   useEffect(() => {
     async function checkSeller() {
       try {
-        const token = localStorage.getItem("token");
+        const token = getToken();
         if (!token) {
           router.push("/login");
           return;
@@ -22,7 +23,7 @@ export default function AddProductPage() {
 
         const user = await getUserProfile(token);
         if (!user?.isSeller) {
-          router.push("/"); // or show "Not Authorized"
+          router.push("/");
           return;
         }
 
@@ -40,7 +41,7 @@ export default function AddProductPage() {
 
   const handleAddProduct = async (formData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getToken;
 
       await createProduct(formData, token);
 

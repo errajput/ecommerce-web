@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import useDebounce from "@/Hooks/useDebounce";
 
 import { formatPrice, formatStock } from "@/utils/format";
-import { deleteProduct, fetchProducts } from "@/services/product.api.js";
-import { getUserProfile } from "@/services/user.api";
+import { deleteProduct, fetchProducts } from "@/services/product.api";
+import { getUserProfile } from "@/services/user.service";
+import { BASE_URL, getToken } from "@/services/http.service";
 
 export default function ProductListPage() {
   const [isSeller, setIsSeller] = useState(false);
@@ -45,7 +46,7 @@ export default function ProductListPage() {
 
   useEffect(() => {
     async function checkUser() {
-      const token = localStorage.getItem("token");
+      const token = getToken;
       if (!token) return;
 
       try {
@@ -63,7 +64,7 @@ export default function ProductListPage() {
     if (!confirm("Are you sure you want to delete this product?")) return;
 
     try {
-      await deleteProduct(id, localStorage.getItem("token"));
+      await deleteProduct(id);
       setProducts(products.filter((p) => p._id !== id));
       setTotal((prev) => prev - 1);
     } catch (err) {
@@ -195,7 +196,7 @@ export default function ProductListPage() {
                       <td className="p-3">
                         {p.images?.length > 0 ? (
                           <img
-                            src={`http://localhost:5000${p.images[0]}`}
+                            src={`${BASE_URL}${p.images[0]}`}
                             alt={p.name}
                             className="w-16 h-16 object-contain rounded"
                           />
@@ -258,7 +259,7 @@ export default function ProductListPage() {
                   <div className="flex gap-4">
                     {p.images?.length > 0 ? (
                       <img
-                        src={`http://localhost:5000${p.images[0]}`}
+                        src={`${BASE_URL}${p.images[0]}`}
                         alt={p.name}
                         className="w-24 h-24 object-contain rounded"
                       />

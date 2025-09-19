@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import Link from "next/link";
-import { getUserProfile } from "@/services/user.api";
+
+import { getUserProfile } from "@/services/user.service";
+import { logoutUser } from "@/services/http.service";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -85,7 +86,7 @@ export default function ProfilePage() {
         </div>
         <button
           onClick={() => {
-            localStorage.removeItem("token");
+            logoutUser();
             router.push("/login");
           }}
           className="mt-6 w-full bg-gray-400 text-white font-semibold p-3 rounded-lg hover:bg-gray-500 transition cursor-pointer"

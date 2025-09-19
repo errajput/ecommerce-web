@@ -1,5 +1,6 @@
 "use client";
 
+import { BASE_URL, getToken } from "@/services/http.service";
 import { getOrders } from "@/services/order.api";
 import { formatDate, formatPrice } from "@/utils/format";
 import Link from "next/link";
@@ -11,9 +12,9 @@ export default function OrdersPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getToken;
     if (!token) {
-      router.push("/login"); // redirect if not logged in
+      router.push("/login");
       return;
     }
     async function fetchOrders() {
@@ -76,7 +77,7 @@ export default function OrdersPage() {
                     >
                       <div className="flex items-center space-x-4">
                         <img
-                          src={`http://localhost:5000${item?.product?.images[0]}`}
+                          src={`${BASE_URL}${item?.product?.images[0]}`}
                           alt={item.product?.name}
                           className="w-14 h-14 object-cover rounded-md border"
                         />
