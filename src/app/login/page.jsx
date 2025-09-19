@@ -36,7 +36,7 @@ export default function LoginPage() {
         setMessage(data.message || "Invalid credentials ");
       }
     } catch (err) {
-      setMessage("Something went wrong ");
+      setMessage(err.message);
     }
   };
 
