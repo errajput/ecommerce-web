@@ -30,12 +30,11 @@ export default function RegisterPage() {
 
     try {
       const data = await registerUser(registerFormData);
-      console.log("Register data", data);
 
       setMessage("Registration successful");
       setTimeout(() => router.push("/login"), 1500);
     } catch (err) {
-      setMessage("Registration failed");
+      setMessage(err.message || "Registration failed");
     }
   };
 
