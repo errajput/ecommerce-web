@@ -1,8 +1,10 @@
 import { getApi, postApi } from "./http.service";
 
-export const registerUser = (formData) => postApi("/auth/register", formData);
+export const registerUser = (formData) =>
+  postApi("/auth/register", formData, false, false);
 
-export const loginUser = (formData) => postApi("/auth/login", formData);
+export const loginUser = (formData) =>
+  postApi("/auth/login", formData, false, false);
 
 /**
  * To Get user information

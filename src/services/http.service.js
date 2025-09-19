@@ -5,12 +5,15 @@ export const removeToken = () => localStorage.removeItem("token");
 export const isUserLogin = () => !!getToken();
 export const logoutUser = () => removeToken();
 
+function handleUnauthorized() {
+  removeToken();
+  window.location.href = "/login";
+}
 // GET
 export const getApi = async (path, isAuth = true) => {
   const token = getToken();
   if (!token && isAuth) {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    handleUnauthorized();
     return;
   }
 
@@ -22,8 +25,7 @@ export const getApi = async (path, isAuth = true) => {
   });
 
   if (res.status === 403 || res.status === 401) {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    handleUnauthorized();
     return;
   }
 
@@ -33,26 +35,30 @@ export const getApi = async (path, isAuth = true) => {
 };
 
 // POST
-export const postApi = async (path, body) => {
+export const postApi = async (
+  path,
+  body,
+  isFormData = false,
+  isAuth = true
+) => {
   const token = getToken();
-  // if (!token) {
-  //   localStorage.removeItem("token");
-  //   window.location.href = "/login";
-  //   return;
-  // }
+  if (!token && isAuth) {
+    handleUnauthorized();
+    return;
+  }
   try {
     const res = await fetch(`${BASE_URL}${path}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        ...(!isFormData && { "Content-Type": "application/json" }),
         ...(token && { Authorization: `Bearer ${token}` }),
       },
-      ...(body && { body: JSON.stringify(body) }),
+      ...(body && !isFormData && { body: JSON.stringify(body) }),
+      ...(body && isFormData && { body }),
     });
 
     if (res.status === 403 || res.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      handleUnauthorized();
       return;
     }
     const data = await res.json();
@@ -60,7 +66,12 @@ export const postApi = async (path, body) => {
     if (!res.ok) throw new Error(data.message);
     return data;
   } catch (error) {
-    console.error("postApi   error:", error);
+    if (
+      !error.message.includes("Invalid credentials") &&
+      !error.message.includes("Email")
+    ) {
+      console.error("postApi error:", error);
+    }
     throw error;
   }
 };
@@ -69,8 +80,7 @@ export const postApi = async (path, body) => {
 export const patchApi = async (path, body, isFormData = false) => {
   const token = getToken();
   if (!token) {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    handleUnauthorized();
     return;
   }
   try {
@@ -85,8 +95,7 @@ export const patchApi = async (path, body, isFormData = false) => {
     });
 
     if (res.status === 403 || res.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      handleUnauthorized;
       return;
     }
 
@@ -103,8 +112,7 @@ export const patchApi = async (path, body, isFormData = false) => {
 export const deleteApi = async (path) => {
   const token = getToken();
   if (!token) {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    handleUnauthorized();
     return;
   }
   try {
@@ -116,8 +124,7 @@ export const deleteApi = async (path) => {
     });
 
     if (res.status === 403 || res.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      handleUnauthorized();
       return;
     }
     const data = await res.json();
