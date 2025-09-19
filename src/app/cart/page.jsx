@@ -5,6 +5,7 @@ import {
   removeItem,
   updateQuantity,
 } from "@/services/cart.api";
+import { BASE_URL } from "@/services/http.service";
 import { placeOrder } from "@/services/order.api";
 import { formatPrice } from "@/utils/format";
 import Link from "next/link";
@@ -98,7 +99,7 @@ export default function CartPage() {
               {/* Product Image */}
 
               <img
-                src={`http://localhost:5000${item.product.images[0]}`}
+                src={`${BASE_URL}${item.product.images[0]}`}
                 alt={item.product.name}
                 className="w-24 h-24 object-contain rounded-md border"
               />

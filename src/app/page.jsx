@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/utils/format";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/services/http.service";
 
 export default function HomePage() {
   const [products, setProducts] = useState(undefined);
@@ -88,7 +89,7 @@ export default function HomePage() {
               >
                 <Link href={`/products/${product._id}`}>
                   <img
-                    src={`http://localhost:5000${product.images[0]}`}
+                    src={`${BASE_URL}${product.images[0]}`}
                     alt={product.name}
                     className="w-full h-60 object-contain rounded cursor-pointer"
                   />

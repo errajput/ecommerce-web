@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { formatPrice, formatStock } from "@/utils/format";
 import { getProductById } from "@/services/product.api";
 import { addToCart } from "@/services/cart.api";
+import { BASE_URL } from "@/services/http.service";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -47,7 +48,7 @@ export default function ProductDetailPage() {
           <ImageSlider
             images={
               product.images?.length
-                ? product.images.map((i) => `http://localhost:5000${i}`)
+                ? product.images.map((i) => `${BASE_URL}${i}`)
                 : []
             }
           />
