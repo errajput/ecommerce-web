@@ -26,6 +26,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* TODO: To hide unwanted default browser controls/icons inside <input> fields*/
 input::-ms-reveal,
 input::-ms-clear,
 input::-webkit-contacts-auto-fill-button,
