@@ -8,7 +8,7 @@ export const loginUser = (formData) =>
 
 /**
  * To Get user information
- * @returns {{ id: string; name: string; email: string; isSeller: boolean;}}
+ * @returns {Promise<{ id: string; name: string; email: string; isSeller: boolean;}>}
  */
 
 export const getUserProfile = async () => {

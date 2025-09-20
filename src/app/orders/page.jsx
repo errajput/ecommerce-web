@@ -2,6 +2,7 @@
 
 import { BASE_URL, getToken } from "@/services/http.service";
 import { getOrders } from "@/services/order.api";
+import { getUserProfile } from "@/services/user.service";
 import { formatDate, formatPrice } from "@/utils/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,7 @@ import { useEffect, useState } from "react";
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const router = useRouter();
+  const [isSeller, setIsSeller] = useState(false);
 
   useEffect(() => {
     const token = getToken;
@@ -17,6 +19,13 @@ export default function OrdersPage() {
       router.push("/login");
       return;
     }
+
+    getUserProfile().then((user) => {
+      if (user.isSeller) {
+        setIsSeller(true);
+      }
+    });
+
     async function fetchOrders() {
       try {
         const data = await getOrders(token);
@@ -100,6 +109,7 @@ export default function OrdersPage() {
                 <p>
                   <span className="font-semibold text-l">Order Date:</span>{" "}
                   {formatDate(order.createdAt)}
+                  {isSeller && <> | Order By: {order?.user?.name}</>}
                 </p>
               </ul>
             </div>

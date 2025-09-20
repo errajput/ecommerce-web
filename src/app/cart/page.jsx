@@ -99,7 +99,7 @@ export default function CartPage() {
               {/* Product Image */}
 
               <img
-                src={`${BASE_URL}${item.product.images[0]}`}
+                src={`${BASE_URL}${item?.product?.images[0]}`}
                 alt={item.product.name}
                 className="w-24 h-24 object-contain rounded-md border"
               />
