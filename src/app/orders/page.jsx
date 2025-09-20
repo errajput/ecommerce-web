@@ -120,10 +120,20 @@ const OrderContainer = ({ order, isSeller }) => {
             </span>
           </li>
         ))}
-        <p>
-          <span className="font-semibold text-l">Order Date:</span>{" "}
-          {formatDate(order.createdAt)}
-          {isSeller && <> | Order By: {order?.user?.name}</>}
+        <p className="flex items-center justify-between text-sm text-gray-700 mb-2">
+          <span>
+            <span className="font-semibold text-green-600">Order Date:</span>{" "}
+            <span className="text-gray-500">{formatDate(order.createdAt)}</span>
+          </span>
+
+          {isSeller && (
+            <span>
+              <span className="font-semibold text-green-600">Order By:</span>{" "}
+              <span className="font-semibold text-gray-500">
+                {order?.user?.name}
+              </span>
+            </span>
+          )}
         </p>
       </ul>
     </div>
@@ -160,7 +170,7 @@ export default function OrdersPage() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 mt-8 bg-white shadow-lg rounded-xl">
+    <div className="max-w-4xl mx-auto p-6 mt-8 bg-white shadow-lg rounded-xl mb-8">
       <h1 className="text-3xl font-bold mb-6 text-gray-800 border-b pb-3">
         My Orders
       </h1>

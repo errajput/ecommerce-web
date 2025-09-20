@@ -31,9 +31,30 @@ export default function RootLayout({ children }) {
           </main>
 
           <footer className="bg-gradient-to-br from-green-300 to-green-500 text-white text-center p-4">
-            © 2025{" "}
-            <span className="font-bold text-white  drop-shadow">AstroCart</span>
-            . All rights reserved.
+            <p className="mb-2 text-xl text-green-700">Follow us on</p>
+            <div className="flex justify-center gap-6">
+              <a
+                href="#"
+                className="hover:text-green-600 hover:bg-white rounded-2xl px-2 py-1"
+              >
+                Facebook
+              </a>
+              <a
+                href="#"
+                className="hover:text-green-600 hover:bg-white rounded-2xl px-2 py-1"
+              >
+                Twitter
+              </a>
+              <a
+                href="#"
+                className="hover:text-green-600 hover:bg-white rounded-2xl px-2 py-1"
+              >
+                Instagram
+              </a>
+            </div>
+            <p className="mt-4 text-sm">
+              © 2025 AstroCart. All rights reserved.
+            </p>
           </footer>
         </div>
       </body>
