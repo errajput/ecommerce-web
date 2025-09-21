@@ -22,7 +22,7 @@ const PRODUCT_BRANDS = [
   "Amazon",
   "Vivo",
 ].map((v) => ({ value: v, label: v }));
-const PRODUCT_CATEGORY = ["Laptop", "Mobile", "Table"].map((v) => ({
+const PRODUCT_CATEGORY = ["Laptop", "Mobile", "Tablet"].map((v) => ({
   value: v,
   label: v,
 }));
