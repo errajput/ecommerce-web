@@ -10,3 +10,14 @@ export const getQuery = (query) => {
   }
   return new URLSearchParams(checkedQuery);
 };
+
+/**
+ * Combines multiple class names into a single string
+ * Ignores falsy values (false, null, undefined, '')
+ *
+ * @param  {...(string|undefined|false|null)} classes
+ * @returns {string}
+ */
+export const cn = (...classes) => {
+  return classes.filter(Boolean).join(" ");
+};
