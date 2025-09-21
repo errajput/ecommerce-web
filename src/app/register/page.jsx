@@ -39,7 +39,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+    <div className="flex items-center justify-center m-2">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
         <h1 className="text-3xl font-extrabold text-center text-green-700 mb-6">
           Create Account ✨
