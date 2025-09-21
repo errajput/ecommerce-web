@@ -240,7 +240,7 @@ export default function ProductListPage() {
                           <Button
                             label={"Delete"}
                             onClick={() => handleDelete(p._id)}
-                            className="flex items-center gap-1 bg-red-500 hover:bg-red-600"
+                            className="flex items-center gap-1 bg-gradient-to-r from-red-500 to-red-700 hover:shadow-lg hover:scale-105"
                           />
                         </td>
                       )}

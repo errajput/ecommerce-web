@@ -4,8 +4,10 @@ const Button = ({ label, onClick, className, disabled }) => {
   return (
     <button
       className={cn(
-        "bg-green-500 text-white px-4 h-9 rounded-xl hover:bg-green-600 hover:scale-105 shadow-sm transition-all text-sm",
-        "cursor-pointer",
+        "bg-gradient-to-r from-emerald-500 to-purple-500 text-white",
+        " px-4 h-9 rounded-xl",
+        " hover:scale-103 hover:shadow-lg transition-transform duration-200 cursor-pointer",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
         className
       )}
       onClick={onClick}

@@ -26,12 +26,12 @@ export default function RootLayout({ children }) {
       <body>
         <div className="min-h-screen flex flex-col">
           <Header />
-          <main className="flex-grow bg-gradient-to-br from-green-100 to-green-200">
+          <main className="flex-grow bg-gradient-to-br from-green-100 to-purple-200">
             {children}
           </main>
 
-          <footer className="bg-gradient-to-br from-green-300 to-green-500 text-white text-center p-4">
-            <p className="mb-2 text-xl text-green-700">Follow us on</p>
+          <footer className="bg-gradient-to-r from-emerald-500 to-purple-600 text-white  text-center p-4">
+            <p className="mb-2 text-xl text-white">Follow us on</p>
             <div className="flex justify-center gap-6">
               <a
                 href="#"

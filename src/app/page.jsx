@@ -21,7 +21,8 @@ const FeaturedProduct = ({ product, handleAddToCart }) => {
         <img
           src={`${BASE_URL}${product.images[0]}`}
           alt={product.name}
-          className="w-full h-60 object-contain rounded cursor-pointer"
+          className="w-full h-60 object-contain  cursor-pointer
+          border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg hover:border-emerald-500 hover:-translate-y-1 transition-all p-4 text-center"
         />
 
         <h3
@@ -30,20 +31,22 @@ const FeaturedProduct = ({ product, handleAddToCart }) => {
         >
           {product.name}
         </h3>
-        <p className="text-green-600 font-bold">{formatPrice(product.price)}</p>
+        <p className=" text-emerald-600 font-bold">
+          {formatPrice(product.price)}
+        </p>
       </Link>
 
       {product.isInCart ? (
         <Button
           label={"Go to Cart"}
           onClick={() => router.push("/cart")}
-          className="mt-3 !bg-blue-600  hover:!bg-blue-700"
+          className="mt-3 !bg-gradient-to-r !from-blue-500 !to-purple-500 hover:shadow-xl"
         />
       ) : (
         <Button
           label={"Add to Cart"}
           onClick={() => handleAddToCart(product._id)}
-          className="mt-3 !bg-green-200 !text-green-500 hover:!bg-green-600 hover:!text-white"
+          className="mt-3 !bg-gradient-to-r from-pink-300 !to-blue-500 hover:shadow-xl"
         />
       )}
     </div>
@@ -93,7 +96,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-green-50 to-green-100">
+    <div>
       {/* Heder Section */}
       <div className="p-12 text-center ">
         <h1 className="text-3xl font-bold my-2 text-green-600">
@@ -107,11 +110,11 @@ export default function HomePage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search products..."
-            className="border-green-400 bg-white !w-96"
+            className="px-4 h-9 !w-96  border-green-400"
           />
           <Button
             label={"Search"}
-            className="bg-green-500 text-white px-4 h-10 rounded-xl hover:bg-green-600"
+            // className="bg-green-500 text-white px-4 h-10 rounded-xl hover:bg-green-600"
           />
         </div>
       </div>

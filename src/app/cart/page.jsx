@@ -128,7 +128,7 @@ export default function CartPage() {
                       handleUpdateQuantity(item._id, item.quantity - 1)
                     }
                     disabled={item.quantity <= 1}
-                    className=" !bg-gray-200 !hover:bg-gray-300 !text-black !rounded disabled:cursor-not-allowed"
+                    className="bg-gradient-to-r from-gray-400 !to-gray-500 !text-black !rounded disabled:cursor-not-allowed"
                   />
                   <span className="px-3 py-1 border rounded bg-white ">
                     {item.quantity}
@@ -139,7 +139,7 @@ export default function CartPage() {
                       handleUpdateQuantity(item._id, item.quantity + 1)
                     }
                     disabled={item.quantity >= 5}
-                    className=" !bg-gray-200 !hover:bg-gray-300 !text-black !rounded disabled:cursor-not-allowed"
+                    className=" bg-gradient-to-r from-gray-400 !to-gray-500 !hover:bg-gray-300 !text-black !rounded disabled:cursor-not-allowed"
                   />
                 </div>
               </div>
@@ -158,7 +158,7 @@ export default function CartPage() {
                 <Button
                   label={"Remove"}
                   onClick={() => handleRemoveItem(item._id)}
-                  className="mt-2 !bg-red-500"
+                  className="mt-2 bg-gradient-to-r from-red-500 to-red-700 hover:shadow-lg hover:scale-105"
                 />
               </div>
             </li>
@@ -169,7 +169,7 @@ export default function CartPage() {
         <Button
           label={"Clear Cart"}
           onClick={handleClearCart}
-          className="!bg-red-600 !hover:bg-red-700"
+          className="mt-2 bg-gradient-to-r from-red-400 to-red-500 hover:shadow-lg hover:scale-105"
         />
 
         <p className="text-xl font-bold text-green-700">
@@ -182,7 +182,11 @@ export default function CartPage() {
             }, 0)
           )}
         </p>
-        <Button label={"Place Order"} onClick={handlePlaceOrder} />
+        <Button
+          label={"Place Order"}
+          onClick={handlePlaceOrder}
+          className="!bg-gradient-to-r !from-blue-400 !to-purple-500 hover:shadow-lg hover:scale-105"
+        />
       </div>
     </div>
   );

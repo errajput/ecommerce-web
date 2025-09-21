@@ -36,7 +36,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gradient-to-br from-green-300 to-green-400 text-white p-2 flex justify-between items-center shadow-lg sticky top-0 z-50">
+    <header className="bg-gradient-to-r from-emerald-500 to-purple-600 text-white shadow-md  p-2 flex justify-between items-center  sticky top-0 z-50">
       <div className="flex items-center space-x-3">
         <img
           src="/astro-cart-icon.png"
@@ -45,7 +45,7 @@ export default function Header() {
         />{" "}
         <Link href="/">
           <h1
-            className="text-3xl font-extrabold tracking-wide 
+            className="text-2xl font-bold tracking-wide 
                      bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
                      bg-clip-text text-transparent 
                      animate-pulse hover:scale-110 hover:rotate-1 
@@ -58,8 +58,8 @@ export default function Header() {
       <nav className="hidden md:flex space-x-9">
         <Link
           href="/products"
-          className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
-                     after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-white after:left-0 after:-bottom-1
+          className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
+                     after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
                      hover:after:w-full after:transition-all after:duration-300"
         >
           Products
@@ -68,8 +68,8 @@ export default function Header() {
         {isLoggedIn && isSeller && (
           <Link
             href="/products/add"
-            className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
-                       after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-white after:left-0 after:-bottom-1
+            className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
+                       after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
                        hover:after:w-full after:transition-all after:duration-300"
           >
             Add Product
@@ -80,16 +80,16 @@ export default function Header() {
           <>
             <Link
               href="/register"
-              className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
-                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-white after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
+                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
                          hover:after:w-full after:transition-all after:duration-300"
             >
               Register
             </Link>
             <Link
               href="/login"
-              className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
-                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-white after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
+                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
                          hover:after:w-full after:transition-all after:duration-300"
             >
               Login
@@ -99,8 +99,8 @@ export default function Header() {
           <>
             <Link
               href="/cart"
-              className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
-              after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-white after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
+              after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
               hover:after:w-full after:transition-all after:duration-300"
             >
               Cart
@@ -116,8 +116,8 @@ export default function Header() {
             </Link> */}
             <Link
               href="/profile"
-              className="cursor-pointer relative transition duration-300 hover:text-green-700 font-bold
-                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-white after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
+                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
                          hover:after:w-full after:transition-all after:duration-300"
             >
               Profile
