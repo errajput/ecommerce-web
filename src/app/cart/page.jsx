@@ -7,6 +7,7 @@ import {
 } from "@/services/cart.api";
 import { BASE_URL } from "@/services/http.service";
 import { placeOrder } from "@/services/order.api";
+import Button from "@/ui/Button";
 import { formatPrice } from "@/utils/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -85,7 +86,7 @@ export default function CartPage() {
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 ">
+    <div>
       <h2 className="text-center text-3xl font-bold text-green-700 p-6">
         Your Cart
       </h2>
@@ -121,27 +122,25 @@ export default function CartPage() {
 
                 {/* Quantity Controls */}
                 <div className="flex items-center gap-3 mt-2">
-                  <button
+                  <Button
+                    label={"-"}
                     onClick={() =>
                       handleUpdateQuantity(item._id, item.quantity - 1)
                     }
                     disabled={item.quantity <= 1}
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:cursor-not-allowed cursor-pointer"
-                  >
-                    -
-                  </button>
+                    className=" !bg-gray-200 !hover:bg-gray-300 !text-black !rounded disabled:cursor-not-allowed"
+                  />
                   <span className="px-3 py-1 border rounded bg-white ">
                     {item.quantity}
                   </span>
-                  <button
+                  <Button
+                    label={"+"}
                     onClick={() =>
                       handleUpdateQuantity(item._id, item.quantity + 1)
                     }
                     disabled={item.quantity >= 5}
-                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:cursor-not-allowed cursor-pointer"
-                  >
-                    +
-                  </button>
+                    className=" !bg-gray-200 !hover:bg-gray-300 !text-black !rounded disabled:cursor-not-allowed"
+                  />
                 </div>
               </div>
 
@@ -156,25 +155,24 @@ export default function CartPage() {
                     )}
                   </span>
                 </p>
-                <button
+                <Button
+                  label={"Remove"}
                   onClick={() => handleRemoveItem(item._id)}
-                  className="mt-2 text-red-500  cursor-pointer"
-                >
-                  Remove
-                </button>
+                  className="mt-2 !bg-red-500"
+                />
               </div>
             </li>
           ))}
         </ul>
       </div>
-      <div className="flex justify-around items-center mt-6">
-        <button
+      <div className="flex justify-around items-center m-6">
+        <Button
+          label={"Clear Cart"}
           onClick={handleClearCart}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg cursor-pointer"
-        >
-          Clear Cart
-        </button>
-        <p className="text-xl font-bold">
+          className="!bg-red-600 !hover:bg-red-700"
+        />
+
+        <p className="text-xl font-bold text-green-700">
           Total:
           {formatPrice(
             cart.items.reduce((acc, item) => {
@@ -184,12 +182,7 @@ export default function CartPage() {
             }, 0)
           )}
         </p>
-        <button
-          onClick={handlePlaceOrder}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg cursor-pointer"
-        >
-          Place Order
-        </button>
+        <Button label={"Place Order"} onClick={handlePlaceOrder} />
       </div>
     </div>
   );

@@ -7,13 +7,54 @@ import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/services/http.service";
 import { fetchProducts } from "@/services/product.api";
 import { addToCart } from "@/services/cart.api";
+import TextField from "@/ui/TextField";
+import Button from "@/ui/Button";
+
+const FeaturedProduct = ({ product, handleAddToCart }) => {
+  const router = useRouter();
+  return (
+    <div
+      key={product._id}
+      className="border border-green-500 rounded-lg bg-white shadow-md hover:shadow-lg transition p-4 text-center"
+    >
+      <Link href={`/products/${product._id}`}>
+        <img
+          src={`${BASE_URL}${product.images[0]}`}
+          alt={product.name}
+          className="w-full h-60 object-contain rounded cursor-pointer"
+        />
+
+        <h3
+          className="text-lg mt-2 truncate  cursor-pointer"
+          title={product.name}
+        >
+          {product.name}
+        </h3>
+        <p className="text-green-600 font-bold">{formatPrice(product.price)}</p>
+      </Link>
+
+      {product.isInCart ? (
+        <Button
+          label={"Go to Cart"}
+          onClick={() => router.push("/cart")}
+          className="mt-3 !bg-blue-600  hover:!bg-blue-700"
+        />
+      ) : (
+        <Button
+          label={"Add to Cart"}
+          onClick={() => handleAddToCart(product._id)}
+          className="mt-3 !bg-green-200 !text-green-500 hover:!bg-green-600 hover:!text-white"
+        />
+      )}
+    </div>
+  );
+};
 
 export default function HomePage() {
   const [products, setProducts] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const router = useRouter();
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -53,24 +94,25 @@ export default function HomePage() {
 
   return (
     <div className="bg-gradient-to-br from-green-50 to-green-100">
-      <div className="p-6 text-center ">
-        <h1 className="text-3xl font-bold mb-2 text-green-600">
+      {/* Heder Section */}
+      <div className="p-12 text-center ">
+        <h1 className="text-3xl font-bold my-2 text-green-600">
           Welcome to Product App 🚀
         </h1>
-        <p className="text-black mb-4">
+        <p className="text-black my-4">
           Discover amazing products at the best prices.
         </p>
-        <div className="flex justify-center gap-2">
-          <input
-            type="text"
+        <div className="flex justify-center gap-2 my-2">
+          <TextField
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search products..."
-            className="border border-green-400 bg-white rounded-l px-4 py-2 w-64"
+            className="border-green-400 bg-white !w-96"
           />
-          <button className="bg-green-500 text-white px-4 rounded-xl hover:bg-green-600">
-            Search
-          </button>
+          <Button
+            label={"Search"}
+            className="bg-green-500 text-white px-4 h-10 rounded-xl hover:bg-green-600"
+          />
         </div>
       </div>
 
@@ -80,15 +122,15 @@ export default function HomePage() {
           Top Categories
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 text-center">
-          {["Laptop", "Mobile", "Tablet"].map((astro) => (
+          {["Laptop", "Mobile", "Tablet"].map((category) => (
             <div
-              key={astro}
-              onClick={() => setSelectedCategory(astro)}
+              key={category}
+              onClick={() => setSelectedCategory(category)}
               className={`p-6 bg-white shadow rounded-lg hover:shadow-lg cursor-pointer transition ${
-                selectedCategory === astro ? "border-2 border-green-500" : ""
+                selectedCategory === category ? "border-2 border-green-500" : ""
               }`}
             >
-              <p className="font-medium">{astro}</p>
+              <p className="font-medium">{category}</p>
             </div>
           ))}
         </div>
@@ -109,44 +151,11 @@ export default function HomePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {products.map((product) => (
-              <div
+              <FeaturedProduct
                 key={product._id}
-                className="border border-green-500 rounded-lg bg-white shadow-md hover:shadow-lg transition p-4 text-center"
-              >
-                <Link href={`/products/${product._id}`}>
-                  <img
-                    src={`${BASE_URL}${product.images[0]}`}
-                    alt={product.name}
-                    className="w-full h-60 object-contain rounded cursor-pointer"
-                  />
-
-                  <h3
-                    className="text-lg mt-2 truncate  cursor-pointer"
-                    title={product.name}
-                  >
-                    {product.name}
-                  </h3>
-                  <p className="text-green-600 font-bold">
-                    {formatPrice(product.price)}
-                  </p>
-                </Link>
-
-                {product.isInCart ? (
-                  <button
-                    onClick={() => router.push("/cart")}
-                    className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
-                  >
-                    Go to Cart
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleAddToCart(product._id)}
-                    className="mt-3 bg-green-200 text-green-500 px-4 py-2 rounded hover:bg-green-600 hover:text-white cursor-pointer"
-                  >
-                    Add to Cart
-                  </button>
-                )}
-              </div>
+                product={product}
+                handleAddToCart={handleAddToCart}
+              />
             ))}
           </div>
         )}

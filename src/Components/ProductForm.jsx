@@ -6,6 +6,7 @@ import SelectField from "@/ui/SelectField";
 import NumberField from "@/ui/NumberField";
 import TextField from "@/ui/TextField";
 import { BASE_URL } from "@/services/http.service";
+import Button from "@/ui/Button";
 
 const PRODUCT_BRANDS = [
   "Apple",
@@ -107,7 +108,7 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-green-500 focus:outline-none"
               placeholder="Enter product description..."
             />
           </div>
@@ -198,13 +199,7 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
               ))}
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-green-600 text-white font-semibold p-3 rounded-lg hover:bg-green-700 transition cursor-pointer"
-          >
-            Save Product
-          </button>
+          <Button label={"Save Product"} type="submit" className="w-full" />
         </form>
       </div>
     </div>

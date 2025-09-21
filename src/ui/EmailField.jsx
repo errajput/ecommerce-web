@@ -10,7 +10,7 @@ const EmailField = ({ value, onChange }) => {
         placeholder="Enter your email"
         value={value}
         onChange={onChange}
-        className="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+        className="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-green-500 focus:outline-none"
         required
       />
     </div>

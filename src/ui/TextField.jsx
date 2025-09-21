@@ -1,16 +1,25 @@
-const TextField = ({ label, value, onChange }) => {
+import { cn } from "@/utils/functions";
+
+const TextField = ({ label, value, onChange, placeholder, className }) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        {label}
-      </label>
+      {label && (
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+        </label>
+      )}
       <input
         type="text"
         name="name"
-        placeholder="Enter your name"
+        placeholder={placeholder || `Enter your ${label}`}
         value={value}
         onChange={onChange}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+        className={cn(
+          "w-full px-3 py-2",
+          "focus:ring-1 focus:ring-green-500 focus:outline-none",
+          "border border-gray-300 rounded-lg ",
+          className
+        )}
         required
       />
     </div>

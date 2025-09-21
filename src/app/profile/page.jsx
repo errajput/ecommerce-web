@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { getUserProfile } from "@/services/user.service";
 import { logoutUser } from "@/services/http.service";
+import Button from "@/ui/Button";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -84,15 +85,14 @@ export default function ProfilePage() {
             📦 My Orders
           </Link>
         </div>
-        <button
+        <Button
+          label={"Logout"}
           onClick={() => {
             logoutUser();
             router.push("/login");
           }}
-          className="mt-6 w-full bg-gray-400 text-white font-semibold p-3 rounded-lg hover:bg-gray-500 transition cursor-pointer"
-        >
-          Logout
-        </button>
+          className="mt-6 w-40 !bg-gray-400  hover:!bg-gray-500 "
+        />
       </div>
     </div>
   );

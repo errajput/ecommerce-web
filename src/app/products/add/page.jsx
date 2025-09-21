@@ -56,7 +56,6 @@ export default function AddProductPage() {
   if (!isSeller) return null;
   return (
     <>
-      {/* <h2 className="text-2xl font-bold text-center my-4">Add Product</h2> */}
       <ProductForm onSubmit={handleAddProduct} />
     </>
   );

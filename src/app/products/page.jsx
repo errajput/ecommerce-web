@@ -8,6 +8,30 @@ import { formatPrice, formatStock } from "@/utils/format";
 import { deleteProduct, fetchProducts } from "@/services/product.api";
 import { getUserProfile } from "@/services/user.service";
 import { BASE_URL, getToken } from "@/services/http.service";
+import TextField from "@/ui/TextField";
+import SelectField from "@/ui/SelectField";
+import Button from "@/ui/Button";
+
+const ALL_BRANDS = [
+  "Apple",
+  "Samsung",
+  "Dell",
+  "HP",
+  "Google",
+  "OnePlus",
+  "Sony",
+  "Lenovo",
+  "Microsoft",
+  "Huawei",
+  "Xiaomi",
+  "Amazon",
+  "Vivo",
+].map((v) => ({ value: v, label: v }));
+
+const PRODUCT_CATEGORY = ["Laptop", "Mobile", "Tablet"].map((v) => ({
+  value: v,
+  label: v,
+}));
 
 export default function ProductListPage() {
   const [isSeller, setIsSeller] = useState(false);
@@ -84,84 +108,61 @@ export default function ProductListPage() {
   const totalPage = Math.ceil(total / pageSize);
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Product List</h2>
+      <h2 className="text-2xl text-green-700 font-bold mb-4">Product List</h2>
 
       {/* 🔍 Toolbar */}
       <div className="flex flex-wrap gap-2 mb-4 items-center">
-        <input
-          type="text"
-          className="border rounded px-3 h-10"
+        <TextField
           placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="border-green-400 bg-white"
         />
-        <label className="text-sm font-medium">Sort:</label>
-        <select
+
+        <label className="text-lg font-medium">Sort:</label>
+        <SelectField
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="border px-3 h-10 rounded"
-        >
-          <option value="">All sorting</option>
-          <option value="price">Price</option>
-          <option value="name">Name</option>
-          <option value="createdAt">CreatedAT</option>
-        </select>
-        <select
+          options={[
+            { label: "Price", value: "price" },
+            { label: "Name", value: "name" },
+            { label: "Created Time", value: "createdAt" },
+          ]}
+          className="border-green-400"
+        />
+        <SelectField
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
-          className="border px-3 h-10 rounded"
-        >
-          <option value="">All </option>
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
-        <label className="text-sm font-medium">Filter:</label>
-        <select
+          options={[
+            { label: "Ascending", value: "asc" },
+            { label: "Descending", value: "desc" },
+          ]}
+          className="border-green-400"
+        />
+
+        <label className="text-lg font-medium">Filter:</label>
+        <SelectField
           value={filterBy === "brand" ? filterValue : ""}
           onChange={(e) => {
             setFilterBy("brand");
             setFilterValue(e.target.value);
-            setPageNo(1); // reset to first page when filter changes
+            setPageNo(1);
           }}
-          className="border px-3 h-10 rounded"
-        >
-          <option value="">All Brands</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Dell">Dell</option>
-          <option value="HP">HP</option>
-          <option value="Google">Google</option>
-          <option value="OnePlus">OnePlus</option>
-          <option value="Sony">Sony</option>
-          <option value="Lenovo">Lenovo</option>
-          <option value="Microsoft">Microsoft</option>
-          <option value="Huawei">Huawei</option>
-          <option value="Xiaomi">Xiaomi</option>
-          <option value="Amazon">Amazon</option>
-          <option value="Vivo">Vivo</option>
-        </select>
-        <select
+          options={ALL_BRANDS}
+          className="border-green-400"
+        />
+        <SelectField
           value={filterBy === "category" ? filterValue : ""}
           onChange={(e) => {
             setFilterBy("category");
             setFilterValue(e.target.value);
             setPageNo(1);
           }}
-          className="border px-3 h-10 rounded"
-        >
-          <option value="">All Categories</option>
-          <option value="Mobile">Mobile</option>
-          <option value="Laptop">Laptop</option>
-          <option value="Tablet">Tablet</option>
-          <option value="Accessories">Accessories</option>
-        </select>
+          options={PRODUCT_CATEGORY}
+          className="border-green-400"
+        />
 
-        <button
-          className="bg-gray-200 px-4 h-10 rounded hover:bg-gray-300 transition cursor-pointer"
-          onClick={handleReset}
-        >
-          Reset
-        </button>
+        <Button label={"Reset"} onClick={handleReset} className="transition" />
       </div>
 
       {products.length === 0 ? (
@@ -178,10 +179,10 @@ export default function ProductListPage() {
                     <th className="p-3 text-left">Name</th>
                     <th className="p-3 text-left">Price</th>
                     <th className="p-3 text-left">Description</th>
-                    <th className="p-3">Brand</th>
-                    <th className="p-3">Category</th>
-                    <th className="p-3">Status</th>
-                    <th className="p-3">Stocks</th>
+                    <th className="p-3 text-left">Brand</th>
+                    <th className="p-3 text-left">Category</th>
+                    <th className="p-3 text-left">Status</th>
+                    <th className="p-3 text-left">Stocks</th>
                     {isSeller && <th className="p-3 text-center">Actions</th>}
                   </tr>
                 </thead>
@@ -231,16 +232,16 @@ export default function ProductListPage() {
                         <td className="p-3 flex justify-center items-center gap-2">
                           <Link
                             href={`/products/${p._id}/edit`}
-                            className="flex items-center gap-1 bg-yellow-500 text-white px-4 h-9 rounded-lg hover:bg-yellow-600 hover:scale-105 shadow-sm transition-all text-sm"
+                            className="flex items-center gap-1 bg-yellow-500 text-white px-4 h-9 rounded-xl hover:bg-yellow-600 hover:scale-105 shadow-sm transition-all text-sm"
                           >
                             Edit
                           </Link>
-                          <button
+
+                          <Button
+                            label={"Delete"}
                             onClick={() => handleDelete(p._id)}
-                            className="flex items-center gap-1 bg-red-500 text-white px-4 h-9 rounded-lg hover:bg-red-600 hover:scale-105 shadow-sm transition-all text-sm cursor-pointer"
-                          >
-                            Delete
-                          </button>
+                            className="flex items-center gap-1 bg-red-500 hover:bg-red-600"
+                          />
                         </td>
                       )}
                     </tr>
@@ -301,12 +302,11 @@ export default function ProductListPage() {
                     >
                       Edit
                     </Link>
-                    <button
+                    <Button
+                      label={"Delete"}
                       onClick={() => handleDelete(p._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-all"
-                    >
-                      Delete
-                    </button>
+                      className="flex items-center gap-1 bg-red-500 hover:bg-red-600"
+                    />
                   </div>
                 </div>
               ))}
@@ -314,23 +314,21 @@ export default function ProductListPage() {
           </div>
           {/* ✅ Pagination */}
           <div className="flex justify-between items-center mt-4">
-            <button
+            <Button
+              label={"Prev"}
               disabled={pageNo === 1}
               onClick={() => setPageNo(pageNo - 1)}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Prev
-            </button>
+              className=" disabled:cursor-not-allowed  "
+            />
             <span>
               Page {pageNo} of {totalPage || 1}
             </span>
-            <button
+            <Button
+              label={"Next"}
               disabled={pageNo >= totalPage}
               onClick={() => setPageNo(pageNo + 1)}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Next
-            </button>
+              className=" disabled:cursor-not-allowed  "
+            />
           </div>
 
           <p>

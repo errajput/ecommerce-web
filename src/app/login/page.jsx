@@ -7,6 +7,7 @@ import Link from "next/link";
 import { loginUser } from "@/services/user.service";
 import EmailField from "@/ui/EmailField";
 import PasswordField from "@/ui/PasswordField";
+import Button from "@/ui/Button";
 
 export default function LoginPage() {
   const [loginFormData, setLoginFormData] = useState({
@@ -56,7 +57,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white font-semibold p-3 rounded-lg hover:bg-green-700 transition"
+            className="w-full bg-green-500 text-white font-semibold px-4 h-9 rounded-xl shadow-sm transition-all text-sm hover:bg-green-600 cursor-pointer"
           >
             Login
           </button>
