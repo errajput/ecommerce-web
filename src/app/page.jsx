@@ -83,8 +83,7 @@ export default function HomePage() {
     try {
       const result = await addToCart(productId, 1);
 
-      if (!result.ok)
-        throw new Error(result.message || "Failed to add to cart");
+      if (!result) throw Error("Please login to add product to cart.");
 
       setProducts((prev) =>
         prev.map((p) => (p._id === productId ? { ...p, isInCart: true } : p))

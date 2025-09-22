@@ -36,7 +36,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    console.log("User from Context", user);
+    // console.log("User from Context", user);
     if (user.isLogin) {
       checkUserLogin();
     } else {

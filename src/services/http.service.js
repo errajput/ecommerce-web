@@ -24,6 +24,8 @@ export const getApi = async (path, isAuth = true) => {
     },
   });
 
+  // console.log("RES", res);
+
   if (res.status === 403 || res.status === 401) {
     handleUnauthorized();
     return;

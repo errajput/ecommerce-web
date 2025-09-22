@@ -9,10 +9,10 @@ export const UserContext = createContext({ isLogin: false });
 const Providers = ({ children }) => {
   const [user, setUser] = useState({ isLogin: false });
   // TODO: Find why error when not using typeof window !== "undefined"
-  console.log("Outside", typeof window !== "undefined" ? window : "Not Found");
+  // console.log("Outside", typeof window !== "undefined" ? window : "Not Found");
 
   useEffect(() => {
-    console.log("Inside", window);
+    // console.log("Inside", window);
     const isLogin = isUserLogin();
     setUser({ isLogin });
   }, []);

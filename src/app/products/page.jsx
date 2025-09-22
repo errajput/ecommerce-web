@@ -70,7 +70,7 @@ export default function ProductListPage() {
 
   useEffect(() => {
     async function checkUser() {
-      const token = getToken;
+      const token = getToken();
       if (!token) return;
 
       try {
