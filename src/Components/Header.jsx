@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getUserProfile } from "@/services/user.service";
 import { isUserLogin } from "@/services/http.service";
+import { UserContext } from "@/providers";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSeller, setIsSeller] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const { user } = useContext(UserContext);
 
-  useEffect(() => {
+  const checkUserLogin = () => {
     const isLogin = isUserLogin();
     setIsLoggedIn(isLogin);
 
@@ -27,7 +29,21 @@ export default function Header() {
           setIsSeller(false);
         });
     }
+  };
+
+  useEffect(() => {
+    checkUserLogin();
   }, []);
+
+  useEffect(() => {
+    console.log("User from Context", user);
+    if (user.isLogin) {
+      checkUserLogin();
+    } else {
+      setIsLoggedIn(false);
+      setIsSeller(false);
+    }
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

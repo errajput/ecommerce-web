@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -8,6 +8,7 @@ import { loginUser } from "@/services/user.service";
 import EmailField from "@/ui/EmailField";
 import PasswordField from "@/ui/PasswordField";
 import Button from "@/ui/Button";
+import { UserContext } from "@/providers";
 
 export default function LoginPage() {
   const [loginFormData, setLoginFormData] = useState({
@@ -16,6 +17,7 @@ export default function LoginPage() {
   });
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const { setUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
@@ -31,6 +33,8 @@ export default function LoginPage() {
         setMessage("Login successful ");
 
         localStorage.setItem("token", data.data.token);
+
+        setUser({ isLogin: true });
 
         setTimeout(() => router.push("/profile"), 1500);
       } else {

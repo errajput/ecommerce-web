@@ -1,17 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { getUserProfile } from "@/services/user.service";
 import { logoutUser } from "@/services/http.service";
 import Button from "@/ui/Button";
+import { UserContext } from "@/providers";
 
 export default function ProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const { setUser: setUserInContext } = useContext(UserContext);
 
   useEffect(() => {
     //useEffect itself can’t be async, Immediately Invoked Function Expression
@@ -89,6 +92,7 @@ export default function ProfilePage() {
           label={"Logout"}
           onClick={() => {
             logoutUser();
+            setUserInContext({ isLogin: true });
             router.push("/login");
           }}
           className="mt-6 w-40 !bg-gray-400  hover:!bg-gray-500 "

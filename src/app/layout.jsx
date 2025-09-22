@@ -1,6 +1,8 @@
 import { Roboto, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/Components/Header";
+import Providers from "@/providers";
+
 export const metadata = {
   title: "AstroCart",
   description:
@@ -25,10 +27,12 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${roboto.variable} ${poppins.variable}`}>
       <body>
         <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-grow bg-gradient-to-br from-green-100 to-purple-200">
-            {children}
-          </main>
+          <Providers>
+            <Header />
+            <main className="flex-grow bg-gradient-to-br from-green-100 to-purple-200">
+              {children}
+            </main>
+          </Providers>
 
           <footer className="bg-gradient-to-r from-emerald-500 to-purple-600 text-white  text-center p-4">
             <p className="mb-2 text-xl text-white">Follow us on</p>
