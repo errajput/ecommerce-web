@@ -1,4 +1,4 @@
-import { getApi, postApi } from "./http.service";
+import { getApi, patchApi, postApi } from "./http.service";
 
 export const registerUser = (formData) =>
   postApi("/auth/register", formData, false, false);
@@ -12,10 +12,16 @@ export const loginUser = (formData) =>
  */
 
 export const getUserProfile = async () => {
-  const res = await getApi("/user/profile");
+  const res = await getApi("/user/profile", true);
 
   if (!res?.data) throw new Error("Profile data missing");
 
-  const { id, name, email, isSeller } = res.data;
-  return { id, name, email, isSeller };
+  const { id, name, email, address, isSeller } = res.data;
+  return { id, name, email, address, isSeller };
+};
+
+export const updateUserProfile = async (formData) => {
+  const res = await patchApi("/user/profile", formData, false);
+  const { id, name, email, address, isSeller } = res.data;
+  return { id, name, email, address, isSeller };
 };
