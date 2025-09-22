@@ -26,7 +26,7 @@ export const fetchProducts = ({
     params.append("filterValue", filterValue);
   }
 
-  return getApi(`/products?${params.toString()}`);
+  return getApi(`/products?${params.toString()}`, false);
 };
 
 //  Delete product
