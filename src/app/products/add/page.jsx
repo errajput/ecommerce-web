@@ -1,47 +1,32 @@
 "use client";
 
 import ProductForm from "@/Components/ProductForm";
+import { UserContext } from "@/providers";
 import { getToken } from "@/services/http.service";
 import { createProduct } from "@/services/product.api.js";
-import { getUserProfile } from "@/services/user.service";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 export default function AddProductPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [isSeller, setIsSeller] = useState(false);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    async function checkSeller() {
-      try {
-        const token = getToken();
-        if (!token) {
-          router.push("/login");
-          return;
-        }
-
-        const user = await getUserProfile(token);
-        if (!user?.isSeller) {
-          router.push("/");
-          return;
-        }
-
-        setIsSeller(true);
-      } catch (err) {
-        console.error("Auth check failed:", err);
-        router.push("/login");
-      } finally {
-        setLoading(false);
-      }
+    if (!user.isLogin) {
+      router.push("/login");
+      return;
     }
 
-    checkSeller();
-  }, [router]);
+    if (!user.isSeller) {
+      router.push("/");
+      return;
+    }
+  }, [user, router]);
 
   const handleAddProduct = async (formData) => {
     try {
-      const token = getToken;
+      const token = getToken();
 
       await createProduct(formData, token);
 
@@ -51,9 +36,9 @@ export default function AddProductPage() {
       alert(error.message || "Error in Adding Product");
     }
   };
+  if (!user.isLogin) return <p>Loading...</p>;
+  if (!user.isSeller) return null;
 
-  if (loading) return <p>Loading...</p>;
-  if (!isSeller) return null;
   return (
     <>
       <ProductForm onSubmit={handleAddProduct} />

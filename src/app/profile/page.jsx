@@ -27,12 +27,16 @@ export default function ProfilePage() {
       try {
         const profile = await getUserProfile();
         setUser(profile);
-      } catch (err) {
-        console.error("Error fetching user:", err.message);
         setAddressFormData({
           name: profile.name,
           address: profile.address || "",
         });
+      } catch (err) {
+        console.error("Error fetching user:", err.message);
+        // setAddressFormData({
+        //   name: profile.name,
+        //   address: profile.address || "",
+        // });
         localStorage.removeItem("token");
         router.push("/login");
       } finally {
@@ -44,7 +48,10 @@ export default function ProfilePage() {
   const handleSave = async () => {
     try {
       const updated = await updateUserProfile(addressFormData);
-      setUser(updated);
+      setUser((prev) => ({
+        ...prev,
+        ...updated,
+      }));
       setIsDialogOpen(false);
     } catch (err) {
       console.error("Error updating profile:", err.message);
@@ -89,7 +96,13 @@ export default function ProfilePage() {
           </p>
           <Button
             label="Edit"
-            onClick={() => setIsDialogOpen(true)}
+            onClick={() => {
+              setAddressFormData({
+                name: user.name,
+                address: user.address || "",
+              });
+              setIsDialogOpen(true);
+            }}
             className="mt-4 w-32 !bg-blue-500 hover:!bg-blue-600"
           />
         </div>
@@ -121,7 +134,7 @@ export default function ProfilePage() {
           label={"Logout"}
           onClick={() => {
             logoutUser();
-            setUserInContext({ isLogin: true });
+            setUserInContext({ isLogin: false, isSeller: false });
             router.push("/login");
           }}
           className="mt-6 w-40 !bg-gray-400  hover:!bg-gray-500 "

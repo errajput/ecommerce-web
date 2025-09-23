@@ -1,53 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserProfile } from "@/services/user.service";
-import { isUserLogin } from "@/services/http.service";
+
 import { UserContext } from "@/providers";
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isSeller, setIsSeller] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const { user } = useContext(UserContext);
-
-  const checkUserLogin = () => {
-    const isLogin = isUserLogin();
-    setIsLoggedIn(isLogin);
-
-    if (isLogin) {
-      getUserProfile()
-        .then((profile) => {
-          setIsSeller(profile.isSeller);
-        })
-        .catch((err) => {
-          console.error("Error fetching profile in header:", err.message);
-          setIsLoggedIn(false);
-          setIsSeller(false);
-        });
-    }
-  };
-
-  useEffect(() => {
-    checkUserLogin();
-  }, []);
-
-  useEffect(() => {
-    // console.log("User from Context", user);
-    if (user.isLogin) {
-      checkUserLogin();
-    } else {
-      setIsLoggedIn(false);
-      setIsSeller(false);
-    }
-  }, [user]);
+  const { user, setUser } = useContext(UserContext);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setIsLoggedIn(false);
+    setUser({ isLogin: false, isSeller: false });
     router.push("/login");
   };
 
@@ -81,7 +47,7 @@ export default function Header() {
           Products
         </Link>
 
-        {isLoggedIn && isSeller && (
+        {user?.isLogin && user?.isSeller && (
           <Link
             href="/products/add"
             className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
@@ -92,7 +58,7 @@ export default function Header() {
           </Link>
         )}
 
-        {!isLoggedIn ? (
+        {!user?.isLogin ? (
           <>
             <Link
               href="/register"
@@ -171,7 +137,7 @@ export default function Header() {
           >
             Cart
           </Link>
-          {isLoggedIn && (
+          {user?.isLogin && (
             <Link
               href="/products/add"
               className="nav-link"
@@ -181,7 +147,7 @@ export default function Header() {
             </Link>
           )}
 
-          {!isLoggedIn ? (
+          {!user?.isLogin ? (
             <>
               <Link
                 href="/register"
