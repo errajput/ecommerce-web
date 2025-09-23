@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ImageSlider from "@/Components/ImageSlider";
 import { useRouter } from "next/navigation";
+
 import { formatPrice, formatStock } from "@/utils/format";
 import { getProductById } from "@/services/product.api";
 import { addToCart } from "@/services/cart.api";
 import { BASE_URL } from "@/services/http.service";
+import Button from "@/ui/Button";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -30,7 +32,7 @@ export default function ProductDetailPage() {
     try {
       await addToCart(product._id, 1);
       setProduct((prev) => ({ ...prev, isInCart: true }));
-      alert("✅ Product added to cart!");
+      alert("Product added to cart!");
     } catch (err) {
       alert(err.message);
     }
@@ -80,19 +82,12 @@ export default function ProductDetailPage() {
           </p>
           <div className="flex gap-4 mt-6">
             {product.isInCart ? (
-              <button
+              <Button
+                label={"Go to Cart"}
                 onClick={() => router.push("/cart")}
-                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-semibold shadow-md transition cursor-pointer"
-              >
-                Go to Cart
-              </button>
+              />
             ) : (
-              <button
-                onClick={handleAddToCart}
-                className="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition cursor-pointer"
-              >
-                Add to Cart
-              </button>
+              <Button label={"Add to Cart"} onClick={handleAddToCart} />
             )}
           </div>
         </div>
