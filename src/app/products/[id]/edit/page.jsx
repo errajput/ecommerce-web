@@ -33,10 +33,5 @@ export default function EditProductPage() {
 
   if (!product) return <p className="text-center">Loading...</p>;
 
-  return (
-    <>
-      {/* <h2 className="text-2xl font-bold text-center my-4">Edit Product</h2> */}
-      <ProductForm initialData={product} onSubmit={handleUpdate} />
-    </>
-  );
+  return <ProductForm initialData={product} onSubmit={handleUpdate} />;
 }
