@@ -1,5 +1,6 @@
 "use client";
 
+import { UserContext } from "@/providers";
 import { BASE_URL, getToken } from "@/services/http.service";
 import { getOrders, updateOrderStatus } from "@/services/order.api";
 import { getUserProfile } from "@/services/user.service";
@@ -7,7 +8,7 @@ import SelectField from "@/ui/SelectField";
 import { formatDate, formatPrice } from "@/utils/format";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const OrderContainer = ({ order, isSeller }) => {
   const [isEditingStatus, setIsEditingStatus] = useState(false);
@@ -137,6 +138,21 @@ const OrderContainer = ({ order, isSeller }) => {
             </span>
           )}
         </p>
+        {isSeller && order.address && (
+          <div className="bg-gray-50 border rounded-md p-3 mt-3 text-sm text-gray-700">
+            <p className="font-semibold text-gray-800 mb-1">
+              Shipping Address:
+            </p>{" "}
+            <p>
+              {order.address.name} ({order.address.phone}){" "}
+            </p>
+            <p>
+              {order.address.street}, {order.address.city},{" "}
+              {order.address.state} - {order.address.pincode}{" "}
+            </p>
+            <span>{order.address.country}</span>
+          </div>
+        )}
       </ul>
     </div>
   );
@@ -145,31 +161,26 @@ const OrderContainer = ({ order, isSeller }) => {
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const router = useRouter();
-  const [isSeller, setIsSeller] = useState(false);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    const token = getToken;
-    if (!token) {
+    if (!user.isLogin) {
       router.push("/login");
       return;
     }
 
-    getUserProfile().then((user) => {
-      if (user.isSeller) {
-        setIsSeller(true);
-      }
-    });
-
     async function fetchOrders() {
       try {
+        const token = getToken();
         const data = await getOrders(token);
         setOrders(data.orders || []);
       } catch (error) {
         console.error(error);
       }
     }
+
     fetchOrders();
-  }, []);
+  }, [user, router]);
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-8 bg-white shadow-lg rounded-xl mb-8">
@@ -184,7 +195,11 @@ export default function OrdersPage() {
       ) : (
         <div className="space-y-6">
           {orders.map((order) => (
-            <OrderContainer key={order._id} order={order} isSeller={isSeller} />
+            <OrderContainer
+              key={order._id}
+              order={order}
+              isSeller={user.isSeller}
+            />
           ))}
         </div>
       )}
