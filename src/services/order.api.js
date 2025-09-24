@@ -4,8 +4,8 @@ export const getOrders = () => {
   return getApi("/orders");
 };
 
-export const placeOrder = () => {
-  return postApi("/orders/place");
+export const placeOrder = (address) => {
+  return postApi("/orders/place", address);
 };
 
 export const updateOrderStatus = (id, status) => {

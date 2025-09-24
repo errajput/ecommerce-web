@@ -16,7 +16,12 @@ export default function ProfilePage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [addressFormData, setAddressFormData] = useState({
     name: "",
-    address: "",
+    phone: "",
+    street: "",
+    city: "",
+    state: "",
+    pincode: "",
+    country: "",
   });
 
   const { setUser: setUserInContext } = useContext(UserContext);
@@ -26,10 +31,17 @@ export default function ProfilePage() {
     (async () => {
       try {
         const profile = await getUserProfile();
+        console.log("profile", profile);
+
         setUser(profile);
         setAddressFormData({
-          name: profile.name,
-          address: profile.address || "",
+          name: profile.address.name || "",
+          phone: profile.address?.phone || "",
+          street: profile.address?.street || "",
+          city: profile.address?.city || "",
+          state: profile.address?.state || "",
+          pincode: profile.address?.pincode || "",
+          country: profile.address?.country || "",
         });
       } catch (err) {
         console.error("Error fetching user:", err.message);
@@ -47,7 +59,11 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      const updated = await updateUserProfile(addressFormData);
+      const dataToUpdate = {
+        address: addressFormData,
+        name: user.name,
+      };
+      const updated = await updateUserProfile(dataToUpdate);
       setUser((prev) => ({
         ...prev,
         ...updated,
@@ -90,17 +106,20 @@ export default function ProfilePage() {
           <p>
             <span className="font-semibold">Email:</span> {user.email}
           </p>
+
           <p>
             <span className="font-semibold">Address:</span>{" "}
-            {user.address || "Not added"}
+            {user?.address?.country
+              ? `${user.address.name}, ${user.address.street}, ${user.address.city}, ${user.address.state} - ${user.address.pincode}, ${user.address.country}`
+              : "Not added"}
           </p>
           <Button
             label="Edit"
             onClick={() => {
-              setAddressFormData({
-                name: user.name,
-                address: user.address || "",
-              });
+              // setAddressFormData({
+              //   name: user.name,
+              //   address: user.address || "",
+              // });
               setIsDialogOpen(true);
             }}
             className="mt-4 w-32 !bg-blue-500 hover:!bg-blue-600"
@@ -145,7 +164,7 @@ export default function ProfilePage() {
         <div className="fixed inset-0  flex items-center justify-center z-50 backdrop-blur-sm bg-transparent">
           <div className="bg-purple-200 p-6 rounded-xl shadow-xl w-96">
             <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
-
+            {JSON.stringify(addressFormData, null, 2)}
             <div className="space-y-3">
               <input
                 type="text"
@@ -156,19 +175,80 @@ export default function ProfilePage() {
                     name: e.target.value,
                   })
                 }
-                className="w-full border border-purple-400 rounded-lg p-2 focus:ring-1 focus:ring-purple-500 focus:outline-none"
-                placeholder="Enter name"
+                placeholder="Full Name"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
               />
-              <textarea
-                value={addressFormData.address}
+              <input
+                type="text"
+                value={addressFormData.phone}
                 onChange={(e) =>
                   setAddressFormData({
                     ...addressFormData,
-                    address: e.target.value,
+                    phone: e.target.value,
                   })
                 }
-                className="w-full border border-purple-400 rounded-lg p-2 focus:ring-1 focus:ring-purple-500 focus:outline-none"
-                placeholder="Enter address"
+                placeholder="Phone"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
+              />
+              <input
+                type="text"
+                value={addressFormData.street}
+                onChange={(e) =>
+                  setAddressFormData({
+                    ...addressFormData,
+                    street: e.target.value,
+                  })
+                }
+                placeholder="Street"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
+              />
+              <input
+                type="text"
+                value={addressFormData.city}
+                onChange={(e) =>
+                  setAddressFormData({
+                    ...addressFormData,
+                    city: e.target.value,
+                  })
+                }
+                placeholder="City"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
+              />
+              <input
+                type="text"
+                value={addressFormData.state}
+                onChange={(e) =>
+                  setAddressFormData({
+                    ...addressFormData,
+                    state: e.target.value,
+                  })
+                }
+                placeholder="State"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
+              />
+              <input
+                type="text"
+                value={addressFormData.pincode}
+                onChange={(e) =>
+                  setAddressFormData({
+                    ...addressFormData,
+                    pincode: e.target.value,
+                  })
+                }
+                placeholder="Pincode"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
+              />
+              <input
+                type="text"
+                value={addressFormData.country}
+                onChange={(e) =>
+                  setAddressFormData({
+                    ...addressFormData,
+                    country: e.target.value,
+                  })
+                }
+                placeholder="Country"
+                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
               />
             </div>
 
