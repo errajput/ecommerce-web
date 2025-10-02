@@ -12,7 +12,7 @@ export default function Header() {
   const { user, setUser } = useContext(UserContext);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    removeToken();
     setUser({ isLogin: false, isSeller: false });
     router.push("/login");
   };

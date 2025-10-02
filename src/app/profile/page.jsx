@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { getUserProfile, updateUserProfile } from "@/services/user.service";
-import { logoutUser } from "@/services/http.service";
+import { logoutUser, removeToken } from "@/services/http.service";
 import Button from "@/ui/Button";
 import { UserContext } from "@/providers";
 
@@ -49,7 +49,7 @@ export default function ProfilePage() {
         //   name: profile.name,
         //   address: profile.address || "",
         // });
-        localStorage.removeItem("token");
+        removeToken();
         router.push("/login");
       } finally {
         setLoading(false);
