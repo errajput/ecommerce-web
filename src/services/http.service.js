@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+export const BASE_URL = API_URL;
 
 export const getToken = () => localStorage.getItem("token");
 export const removeToken = () => localStorage.removeItem("token");
@@ -17,7 +18,7 @@ export const getApi = async (path, isAuth = true) => {
     return;
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const res = await fetch(`${API_URL}${path}`, {
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
@@ -49,7 +50,7 @@ export const postApi = async (
     return;
   }
   try {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await fetch(`${API_URL}${path}`, {
       method: "POST",
       headers: {
         ...(!isFormData && { "Content-Type": "application/json" }),
@@ -86,7 +87,7 @@ export const patchApi = async (path, body, isFormData = false) => {
     return;
   }
   try {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await fetch(`${API_URL}${path}`, {
       method: "PATCH",
       headers: {
         ...(!isFormData && { "Content-Type": "application/json" }),
@@ -118,7 +119,7 @@ export const deleteApi = async (path) => {
     return;
   }
   try {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await fetch(`${API_URL}${path}`, {
       method: "DELETE",
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
