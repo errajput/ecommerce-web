@@ -27,15 +27,12 @@ export default function ProfilePage() {
   const { setUser: setUserInContext } = useContext(UserContext);
 
   useEffect(() => {
-    //useEffect itself can’t be async, Immediately Invoked Function Expression
     (async () => {
       try {
         const profile = await getUserProfile();
-        console.log("profile", profile);
-
         setUser(profile);
         setAddressFormData({
-          name: profile.address.name || "",
+          name: profile.address?.name || "",
           phone: profile.address?.phone || "",
           street: profile.address?.street || "",
           city: profile.address?.city || "",
@@ -45,10 +42,6 @@ export default function ProfilePage() {
         });
       } catch (err) {
         console.error("Error fetching user:", err.message);
-        // setAddressFormData({
-        //   name: profile.name,
-        //   address: profile.address || "",
-        // });
         removeToken();
         router.push("/login");
       } finally {
@@ -76,7 +69,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+      <div className="min-h-screen flex items-center justify-center">
         <p className="text-lg font-semibold text-gray-700">
           Loading profile...
         </p>
@@ -86,55 +79,53 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
+      <div className="min-h-screen flex items-center justify-center ">
         <p className="text-lg font-semibold text-red-600">No user found</p>
       </div>
     );
   }
 
   return (
-    <div className="h-100 flex items-center justify-center m-12">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 text-center">
-        <h1 className="text-3xl font-extrabold text-green-700 mb-6">
+    <div className="flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div className="w-full max-w-lg bg-white shadow-2xl rounded-2xl p-6 sm:p-8 text-center">
+        {/* Header */}
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-green-700 mb-6">
           Profile 👤
         </h1>
 
-        <div className="space-y-3 text-gray-700">
+        {/* User Info */}
+        <div className="space-y-2 text-gray-700 text-sm sm:text-base">
           <p>
             <span className="font-semibold">Name:</span> {user.name}
           </p>
           <p>
             <span className="font-semibold">Email:</span> {user.email}
           </p>
-
-          <p>
+          <p className="break-words">
             <span className="font-semibold">Address:</span>{" "}
             {user?.address?.country
               ? `${user.address.name}, ${user.address.street}, ${user.address.city}, ${user.address.state} - ${user.address.pincode}, ${user.address.country}`
               : "Not added"}
           </p>
+
           <Button
             label="Edit"
-            onClick={() => {
-              // setAddressFormData({
-              //   name: user.name,
-              //   address: user.address || "",
-              // });
-              setIsDialogOpen(true);
-            }}
-            className="mt-4 w-32 !bg-blue-500 hover:!bg-blue-600"
+            onClick={() => setIsDialogOpen(true)}
+            className="w-full h-9 sm:h-11  sm:w-32 !bg-blue-500 hover:!bg-blue-600 mt-2"
           />
         </div>
 
+        {/* Seller button */}
         {user.isSeller && (
           <Link
             href="/products/add"
-            className="block w-full bg-blue-500 text-white font-semibold p-3 rounded-lg hover:bg-blue-600 transition"
+            className="mt-4 block w-full bg-blue-500 text-white font-semibold p-3 rounded-lg hover:bg-blue-600 transition"
           >
             Add Product
           </Link>
         )}
 
+        {/* Links */}
         <div className="mt-6 space-y-3">
           <Link
             href="/cart"
@@ -149,6 +140,8 @@ export default function ProfilePage() {
             📦 My Orders
           </Link>
         </div>
+
+        {/* Logout Button */}
         <Button
           label={"Logout"}
           onClick={() => {
@@ -156,112 +149,54 @@ export default function ProfilePage() {
             setUserInContext({ isLogin: false, isSeller: false });
             router.push("/login");
           }}
-          className="mt-6 w-40 !bg-gray-400  hover:!bg-gray-500 "
+          className="mt-6 w-full h-9 sm:h-11 sm:w-35 !bg-gray-400 hover:!bg-gray-500"
         />
       </div>
-      {/* Dialog Box */}
+
+      {/* Responsive Dialog Box */}
       {isDialogOpen && (
-        <div className="fixed inset-0  flex items-center justify-center z-50 backdrop-blur-sm bg-transparent">
-          <div className="bg-purple-200 p-6 rounded-xl shadow-xl w-96">
-            <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
-            {JSON.stringify(addressFormData, null, 2)}
-            <div className="space-y-3">
-              <input
-                type="text"
-                value={addressFormData.name}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    name: e.target.value,
-                  })
-                }
-                placeholder="Full Name"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                value={addressFormData.phone}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    phone: e.target.value,
-                  })
-                }
-                placeholder="Phone"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                value={addressFormData.street}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    street: e.target.value,
-                  })
-                }
-                placeholder="Street"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                value={addressFormData.city}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    city: e.target.value,
-                  })
-                }
-                placeholder="City"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                value={addressFormData.state}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    state: e.target.value,
-                  })
-                }
-                placeholder="State"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                value={addressFormData.pincode}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    pincode: e.target.value,
-                  })
-                }
-                placeholder="Pincode"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                value={addressFormData.country}
-                onChange={(e) =>
-                  setAddressFormData({
-                    ...addressFormData,
-                    country: e.target.value,
-                  })
-                }
-                placeholder="Country"
-                className="w-full border rounded p-2 focus:ring-1 focus:ring-purple-500"
-              />
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/20 p-4 sm:p-0">
+          <div className="bg-purple-100 p-4 sm:p-6 rounded-xl shadow-xl w-full max-w-sm sm:max-w-md">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 text-center">
+              Edit Profile
+            </h2>
+
+            <div className="space-y-3 overflow-y-auto max-h-[70vh]">
+              {[
+                "name",
+                "phone",
+                "street",
+                "city",
+                "state",
+                "pincode",
+                "country",
+              ].map((field) => (
+                <input
+                  key={field}
+                  type="text"
+                  value={addressFormData[field]}
+                  onChange={(e) =>
+                    setAddressFormData({
+                      ...addressFormData,
+                      [field]: e.target.value,
+                    })
+                  }
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  className="w-full border rounded-md p-2 focus:ring-2 focus:ring-purple-400 outline-none text-sm sm:text-base"
+                />
+              ))}
             </div>
 
-            <div className="flex justify-end gap-3 mt-4">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 mt-5 sm-2">
               <Button
                 label="Cancel"
                 onClick={() => setIsDialogOpen(false)}
-                className="w-24 !bg-gray-400 hover:!bg-gray-500"
+                className="w-full sm:w-24 !bg-gray-400 hover:!bg-gray-500"
               />
               <Button
                 label="Save"
                 onClick={handleSave}
-                className="w-24 !bg-green-500 hover:!bg-green-600"
+                className="w-full sm:w-24 !bg-green-500 hover:!bg-green-600"
               />
             </div>
           </div>
