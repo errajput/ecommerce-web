@@ -111,7 +111,7 @@ export default function ProfilePage() {
           <Button
             label="Edit"
             onClick={() => setIsDialogOpen(true)}
-            className="w-full h-9 sm:h-11  sm:w-32 !bg-blue-500 hover:!bg-blue-600 mt-2"
+            className="w-full h-11 !bg-blue-500 hover:!bg-blue-600 mt-2"
           />
         </div>
 

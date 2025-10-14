@@ -40,8 +40,8 @@ export default function Header() {
       <nav className="hidden md:flex space-x-9">
         <Link
           href="/products"
-          className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
-                     after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
+          className="cursor-pointer relative transition duration-300 hover:text-gray-300  font-bold
+                     after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-gray-300  after:left-0 after:-bottom-1
                      hover:after:w-full after:transition-all after:duration-300"
         >
           Products
@@ -50,8 +50,8 @@ export default function Header() {
         {user?.isLogin && user?.isSeller && (
           <Link
             href="/products/add"
-            className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
-                       after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
+            className="cursor-pointer relative transition duration-300 hover:text-gray-300  font-bold
+                       after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-gray-300  after:left-0 after:-bottom-1
                        hover:after:w-full after:transition-all after:duration-300"
           >
             Add Product
@@ -62,16 +62,16 @@ export default function Header() {
           <>
             <Link
               href="/register"
-              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
-                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-gray-300  font-bold
+                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-gray-300  after:left-0 after:-bottom-1
                          hover:after:w-full after:transition-all after:duration-300"
             >
               Register
             </Link>
             <Link
               href="/login"
-              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
-                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-gray-300  font-bold
+                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-gray-300  after:left-0 after:-bottom-1
                          hover:after:w-full after:transition-all after:duration-300"
             >
               Login
@@ -81,8 +81,8 @@ export default function Header() {
           <>
             <Link
               href="/cart"
-              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
-              after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-gray-300  font-bold
+              after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-gray-300  after:left-0 after:-bottom-1
               hover:after:w-full after:transition-all after:duration-300"
             >
               Cart
@@ -98,8 +98,8 @@ export default function Header() {
             </Link> */}
             <Link
               href="/profile"
-              className="cursor-pointer relative transition duration-300 hover:text-pink-300  font-bold
-                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-pink-300  after:left-0 after:-bottom-1
+              className="cursor-pointer relative transition duration-300 hover:text-gray-300  font-bold
+                         after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-gray-300  after:left-0 after:-bottom-1
                          hover:after:w-full after:transition-all after:duration-300"
             >
               Profile
