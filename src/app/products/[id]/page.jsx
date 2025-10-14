@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { formatPrice, formatStock } from "@/utils/format";
 import { getProductById } from "@/services/product.api";
 import { addToCart } from "@/services/cart.api";
-import { BASE_URL } from "@/services/http.service";
 import Button from "@/ui/Button";
 
 export default function ProductDetailPage() {
@@ -49,9 +48,7 @@ export default function ProductDetailPage() {
         <div className="flex justify-center items-start">
           <ImageSlider
             images={
-              product.images?.length
-                ? product.images.map((i) => `${BASE_URL}${i}`)
-                : []
+              product.images?.length ? product.images.map((i) => `${i}`) : []
             }
           />
         </div>

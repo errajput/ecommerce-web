@@ -1,7 +1,7 @@
 "use client";
 
 import { UserContext } from "@/providers";
-import { BASE_URL, getToken } from "@/services/http.service";
+import { getToken } from "@/services/http.service";
 import { getOrders, updateOrderStatus } from "@/services/order.api";
 import { getUserProfile } from "@/services/user.service";
 import SelectField from "@/ui/SelectField";
@@ -105,7 +105,7 @@ const OrderContainer = ({ order, isSeller }) => {
             >
               <div className="flex items-center space-x-4">
                 <img
-                  src={`${BASE_URL}${item?.product?.images[0]}`}
+                  src={`${item?.product?.images[0]}`}
                   alt={item.product?.name}
                   className="w-14 h-14 object-cover rounded-md border"
                 />

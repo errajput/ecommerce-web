@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/utils/format";
 import { useRouter } from "next/navigation";
-import { BASE_URL } from "@/services/http.service";
+
 import { fetchProducts } from "@/services/product.api";
 import { addToCart } from "@/services/cart.api";
 import TextField from "@/ui/TextField";
@@ -19,7 +19,7 @@ const FeaturedProduct = ({ product, handleAddToCart }) => {
     >
       <Link href={`/products/${product._id}`}>
         <img
-          src={`${BASE_URL}${product.images[0]}`}
+          src={`${product.images[0]}`}
           alt={product.name}
           className="w-full h-60 object-contain  cursor-pointer
           border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg hover:border-emerald-500 hover:-translate-y-1 transition-all p-4 text-center"

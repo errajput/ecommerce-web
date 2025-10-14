@@ -5,7 +5,6 @@ import Image from "next/image";
 import SelectField from "@/ui/SelectField";
 import NumberField from "@/ui/NumberField";
 import TextField from "@/ui/TextField";
-import { BASE_URL } from "@/services/http.service";
 import Button from "@/ui/Button";
 
 const PRODUCT_BRANDS = [
@@ -151,7 +150,7 @@ export default function ProductForm({ initialData = {}, onSubmit }) {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {initialData.images.map((image) => (
                   <img
-                    src={`${BASE_URL}${image}`}
+                    src={`${image}`}
                     key={image}
                     className="w-24 h-26 object-cover rounded-lg border shadow-sm"
                   />

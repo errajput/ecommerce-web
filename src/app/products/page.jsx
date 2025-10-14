@@ -6,7 +6,7 @@ import useDebounce from "@/Hooks/useDebounce";
 
 import { formatPrice, formatStock } from "@/utils/format";
 import { deleteProduct, fetchProducts } from "@/services/product.api";
-import { BASE_URL } from "@/services/http.service";
+
 import TextField from "@/ui/TextField";
 import SelectField from "@/ui/SelectField";
 import Button from "@/ui/Button";
@@ -184,7 +184,7 @@ export default function ProductListPage() {
                       <td className="p-3">
                         {p.images?.length > 0 ? (
                           <img
-                            src={`${BASE_URL}${p.images[0]}`}
+                            src={`${p.images[0]}`}
                             alt={p.name}
                             className="w-16 h-16 object-contain rounded"
                           />
@@ -247,7 +247,7 @@ export default function ProductListPage() {
                   <div className="flex gap-4">
                     {p.images?.length > 0 ? (
                       <img
-                        src={`${BASE_URL}${p.images[0]}`}
+                        src={`${p.images[0]}`}
                         alt={p.name}
                         className="w-24 h-24 object-contain rounded"
                       />
